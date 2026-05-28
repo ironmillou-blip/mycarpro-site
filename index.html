@@ -1,232 +1,1748 @@
-<!DOCTYPE html>
-<html lang="et">
+html_content = '''<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My.Car.Pro - Premium Autoteenindus</title>
-    <!-- Подключаем красивые технологичные шрифты -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    <!-- Подключаем Tailwind CSS для неонового стиля -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Space Grotesk', 'sans-serif'],
-                    }
-                }
+    <title>Шиномонтаж PRO — Автосервис</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #111111;
+            --dark-gray: #1a1a1a;
+            --gray: #2a2a2a;
+            --light-gray: #888888;
+            --yellow: #FFD700;
+            --yellow-dark: #E6C200;
+            --yellow-glow: rgba(255, 215, 0, 0.3);
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--yellow-glow); }
+            50% { box-shadow: 0 0 30px 10px var(--yellow-glow); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes tireRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--yellow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 4px solid var(--black);
+            border-radius: 50%;
+            animation: tireRotate 8s linear infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--black);
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: var(--yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--yellow);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-phone {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--yellow);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-phone:hover {
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--yellow);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark) 50%, #0d0d0d 100%);
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,215,0,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,215,0,0.02) 0%, transparent 50%);
+        }
+
+        .hero-tire {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.08;
+            border: 40px solid var(--yellow);
+            border-radius: 50%;
+            animation: tireRotate 60s linear infinite;
+        }
+
+        .hero-tire::before {
+            content: '';
+            position: absolute;
+            inset: 60px;
+            border: 20px solid var(--yellow);
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 120px 30px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--yellow);
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge i {
+            color: var(--yellow);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-title .highlight {
+            color: var(--yellow);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(255,215,0,0.3);
+            z-index: -1;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--light-gray);
+            line-height: 1.7;
+            margin-bottom: 35px;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--black);
+            box-shadow: 0 10px 40px rgba(255,215,0,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(255,215,0,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--gray);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+            opacity: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--yellow);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            margin-top: 5px;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInRight 1s ease 0.5s forwards;
+            opacity: 0;
+        }
+
+        .hero-tire-visual {
+            width: 400px;
+            height: 400px;
+            position: relative;
+        }
+
+        .tire-outer {
+            position: absolute;
+            inset: 0;
+            border: 25px solid var(--yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255,215,0,0.2), inset 0 0 60px rgba(255,215,0,0.1);
+        }
+
+        .tire-inner {
+            position: absolute;
+            inset: 60px;
+            border: 15px solid var(--dark-gray);
+            border-radius: 50%;
+        }
+
+        .tire-hub {
+            position: absolute;
+            inset: 100px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(255,215,0,0.4);
+        }
+
+        .tire-hub i {
+            font-size: 3rem;
+            color: var(--black);
+        }
+
+        .tire-bolt {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--black);
+            border-radius: 50%;
+        }
+
+        .tire-bolt:nth-child(1) { top: 30px; left: 50%; transform: translateX(-50%); }
+        .tire-bolt:nth-child(2) { bottom: 30px; left: 50%; transform: translateX(-50%); }
+        .tire-bolt:nth-child(3) { left: 30px; top: 50%; transform: translateY(-50%); }
+        .tire-bolt:nth-child(4) { right: 30px; top: 50%; transform: translateY(-50%); }
+
+        .floating-card {
+            position: absolute;
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-card.card-1 {
+            top: -20px;
+            right: -30px;
+            animation-delay: 0s;
+        }
+
+        .floating-card.card-2 {
+            bottom: 20px;
+            left: -40px;
+            animation-delay: 2s;
+        }
+
+        .floating-card i {
+            font-size: 1.5rem;
+            color: var(--yellow);
+            margin-bottom: 8px;
+        }
+
+        .floating-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .floating-card p {
+            font-size: 0.75rem;
+            color: var(--light-gray);
+        }
+
+        /* ===== SERVICES ===== */
+        .services {
+            padding: 100px 0;
+            background: var(--dark);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+            padding: 0 30px;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--yellow);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .section-desc {
+            color: var(--light-gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .services-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--yellow);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,215,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            transition: all 0.4s;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--yellow);
+        }
+
+        .service-icon i {
+            font-size: 1.8rem;
+            color: var(--yellow);
+            transition: color 0.4s;
+        }
+
+        .service-card:hover .service-icon i {
+            color: var(--black);
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--light-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .service-price {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--yellow);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .service-price span {
+            font-size: 0.85rem;
+            color: var(--light-gray);
+            font-weight: 400;
+        }
+
+        /* ===== WHY US ===== */
+        .why-us {
+            padding: 100px 0;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-us-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .why-us-visual {
+            position: relative;
+        }
+
+        .why-us-img {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--dark-gray), var(--gray));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray);
+        }
+
+        .why-us-img::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 20px solid var(--yellow);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: tireRotate 30s linear infinite;
+        }
+
+        .why-us-img i {
+            font-size: 8rem;
+            color: var(--yellow);
+            opacity: 0.3;
+            z-index: 2;
+        }
+
+        .experience-badge {
+            position: absolute;
+            bottom: 30px;
+            right: -20px;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 25px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255,215,0,0.3);
+        }
+
+        .experience-badge .num {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .experience-badge .text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .why-us-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .why-us-content > p {
+            color: var(--light-gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .feature-check {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            background: rgba(255,215,0,0.1);
+            border: 2px solid var(--yellow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--yellow);
+            font-size: 1.1rem;
+        }
+
+        .feature-item h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .feature-item p {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ===== PRICING ===== */
+        .pricing {
+            padding: 100px 0;
+            background: var(--dark);
+        }
+
+        .pricing-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .pricing-card {
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--yellow);
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(255,215,0,0.1);
+        }
+
+        .pricing-card.featured::before {
+            content: 'ПОПУЛЯРНОЕ';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--yellow);
+            color: var(--black);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,215,0,0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .pricing-icon i {
+            font-size: 2rem;
+            color: var(--yellow);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pricing-card .price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--yellow);
+            margin: 20px 0;
+            line-height: 1;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            color: var(--light-gray);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li i {
+            color: var(--yellow);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CONTACT / CTA ===== */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            border: 30px solid rgba(255,215,0,0.05);
+            border-radius: 50%;
+            animation: tireRotate 40s linear infinite;
+        }
+
+        .cta-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .cta-content > p {
+            color: var(--light-gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--yellow);
+            font-size: 1.2rem;
+        }
+
+        .contact-item div h4 {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+            margin-bottom: 3px;
+        }
+
+        .contact-item div p {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .cta-form {
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .cta-form h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cta-form > p {
+            color: var(--light-gray);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--light-gray);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--black);
+            border: 1px solid var(--gray);
+            border-radius: 12px;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--black);
+            border-top: 1px solid var(--gray);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand p {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--yellow);
+            border-color: var(--yellow);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--yellow);
+        }
+
+        .footer-bottom {
+            max-width: 1300px;
+            margin: 40px auto 0;
+            padding: 25px 30px 0;
+            border-top: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--light-gray);
+            font-size: 0.85rem;
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--yellow);
+            border: none;
+            border-radius: 12px;
+            color: var(--black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero-container,
+            .why-us-container,
+            .cta-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .hero-tire-visual {
+                width: 300px;
+                height: 300px;
+            }
+
+            .why-us-visual {
+                order: -1;
+            }
+
+            .experience-badge {
+                right: 10px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
             }
         }
-    </script>
-    <style>
-        /* Применяем фоновую картинку на весь сайт с красивым затемнением */
-        body {
-            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9)), url('8504.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        .neon-border {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.1);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-        }
-        .neon-text {
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
-        }
-        .neon-btn {
-            background: linear-gradient(135deg, #00E5FF 0%, #0083B0 100%);
-            box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
-        }
-        .neon-btn:hover {
-            box-shadow: 0 6px 25px rgba(0, 229, 255, 0.7);
-            transform: translateY(-1px);
+
+        @media (max-width: 768px) {
+            .nav-links,
+            .nav-phone {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-stats {
+                gap: 25px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-8px);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
         }
     </style>
 </head>
-<body class="text-slate-200 font-sans min-h-screen antialiased selection:bg-cyan-500/30">
+<body>
 
-    <!-- НАВИГАЦИЯ И КРУПНЫЙ ЛОГОТИП -->
-    <header class="w-full py-6 px-4 border-b border-cyan-500/10 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto flex flex-col items-center justify-center gap-4">
-            <!-- Увеличенный логотип из картинки 8445.jpg -->
-            <img src="8445.jpg" alt="My.Car.Pro Logo" class="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-            <nav class="flex gap-6 text-sm font-medium tracking-wide uppercase text-slate-400">
-                <a href="#teenused" class="hover:text-cyan-400 transition-colors">Teenused</a>
-                <a href="#broneerimine" class="hover:text-cyan-400 transition-colors">Broneerimine</a>
-                <a href="#kontakt" class="hover:text-cyan-400 transition-colors">Kontakt</a>
-            </nav>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">ШИНО<span>PRO</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#why-us">Почему мы</a></li>
+                <li><a href="#pricing">Цены</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+            <a href="tel:+74951234567" class="nav-phone">
+                <i class="fas fa-phone-alt"></i>
+                +7 (495) 123-45-67
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-4xl mx-auto px-4 py-12 space-y-20">
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-tire"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    Работаем 24/7 без выходных
+                </div>
+                <h1 class="hero-title">
+                    Профессиональный<br>
+                    <span class="highlight">шиномонтаж</span><br>
+                    и автосервис
+                </h1>
+                <p class="hero-desc">
+                    Быстро, качественно и надёжно. Замена шин любой сложности, 
+                    балансировка, ремонт проколов и полный спектр услуг для вашего автомобиля.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-calendar-check"></i>
+                        Записаться онлайн
+                    </a>
+                    <a href="tel:+74951234567" class="btn btn-outline">
+                        <i class="fas fa-phone"></i>
+                        Позвонить
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Лет опыта</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Довольных клиентов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">30</div>
+                        <div class="stat-label">Минут замена</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-tire-visual">
+                    <div class="tire-outer"></div>
+                    <div class="tire-inner"></div>
+                    <div class="tire-hub">
+                        <i class="fas fa-car"></i>
+                        <div class="tire-bolt"></div>
+                        <div class="tire-bolt"></div>
+                        <div class="tire-bolt"></div>
+                        <div class="tire-bolt"></div>
+                    </div>
+                </div>
+                <div class="floating-card card-1">
+                    <i class="fas fa-clock"></i>
+                    <h4>Быстрая замена</h4>
+                    <p>Всего 30 минут</p>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Гарантия качества</h4>
+                    <p>На все работы</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- ГЛАВНЫЙ БЛОК -->
-        <section class="text-center space-y-6 py-8">
-            <h1 class="font-heading text-4xl md:text-6xl font-bold tracking-tight text-white uppercase">
-                Professionaalne <span class="text-cyan-400 neon-text">Autoteenindus</span>
-            </h1>
-            <p class="text-lg text-slate-400 max-w-xl mx-auto">
-                Kvaliteetsed lahendused ja eksklusiivne hooldus Sinu sõidukile Tallinnas.
-            </p>
-            <div class="pt-4">
-                <a href="#broneerimine" class="neon-btn text-slate-900 font-semibold px-8 py-4 rounded-xl inline-block transition-all duration-300 uppercase tracking-wider text-sm">
-                    Broneeri aeg kohe
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="section-header animate-on-scroll">
+            <div class="section-label">Наши услуги</div>
+            <h2 class="section-title">Всё для вашего автомобиля<br>в одном месте</h2>
+            <p class="section-desc">Полный спектр услуг шиномонтажа и автосервиса. Современное оборудование и опытные мастера.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3>Сезонная замена шин</h3>
+                <p>Быстрая и аккуратная замена летней и зимней резины с сохранением балансировки и давления.</p>
+                <div class="service-price">
+                    от 1 500 ₽ <span>/ комплект</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3>Балансировка колёс</h3>
+                <p>Точная балансировка на современном стенде. Устранение вибраций и биения при движении.</p>
+                <div class="service-price">
+                    от 400 ₽ <span>/ колесо</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Ремонт шин</h3>
+                <p>Заплатки, жгуты, грибки — ремонт проколов любой сложности с гарантией герметичности.</p>
+                <div class="service-price">
+                    от 500 ₽ <span>/ прокол</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                </div>
+                <h3>Развал-схождение</h3>
+                <p>Настройка углов установки колёс на 3D-стенде. Экономия топлива и продление срока шин.</p>
+                <div class="service-price">
+                    от 2 000 ₽ <span>/ ось</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-snowflake"></i>
+                </div>
+                <h3>Хранение шин</h3>
+                <p>Круглогодичное хранение комплектов шин в климат-контролируемом помещении с маркировкой.</p>
+                <div class="service-price">
+                    от 3 000 ₽ <span>/ сезон</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <i class="fas fa-oil-can"></i>
+                </div>
+                <h3>ТО и диагностика</h3>
+                <p>Замена масла, фильтров, тормозных колодок. Компьютерная диагностика всех систем авто.</p>
+                <div class="service-price">
+                    от 1 000 ₽ <span>/ услуга</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us" id="why-us">
+        <div class="why-us-container">
+            <div class="why-us-visual animate-on-scroll">
+                <div class="why-us-img">
+                    <i class="fas fa-car-side"></i>
+                </div>
+                <div class="experience-badge">
+                    <div class="num">15</div>
+                    <div class="text">лет на рынке</div>
+                </div>
+            </div>
+            <div class="why-us-content animate-on-scroll">
+                <div class="section-label">Почему выбирают нас</div>
+                <h2>Доверьте свой автомобиль<br>профессионалам</h2>
+                <p>Мы используем только современное оборудование и качественные материалы. Каждый клиент для нас — партнёр на долгие годы.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <h4>Современное оборудование</h4>
+                            <p>3D-стенды развал-схождения, автоматические шиномонтажные станки Hunter и Hofmann</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <h4>Опытные мастера</h4>
+                            <p>Сертифицированные специалисты с опытом от 5 лет. Без повреждений дисков и датчиков давления</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <h4>Работаем без выходных</h4>
+                            <p>Ежедневно с 8:00 до 22:00. Запись онлайн или по телефону. Срочный выезд на место поломки</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <h4>Гарантия на все работы</h4>
+                            <p>Предоставляем гарантию до 1 года на все виды работ. Бесплатное устранение недочётов</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-header animate-on-scroll">
+            <div class="section-label">Цены</div>
+            <h2 class="section-title">Прозрачные цены<br>без скрытых платежей</h2>
+            <p class="section-desc">Выберите подходящий тариф или свяжитесь с нами для индивидуального расчёта.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card animate-on-scroll">
+                <div class="pricing-icon">
+                    <i class="fas fa-tire"></i>
+                </div>
+                <h3>Шиномонтаж</h3>
+                <div class="price">1 500 ₽<span> / комплект</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Снятие / установка 4 колёс</li>
+                    <li><i class="fas fa-check"></i> Монтаж / демонтаж шин</li>
+                    <li><i class="fas fa-check"></i> Балансировка 4 колёс</li>
+                    <li><i class="fas fa-check"></i> Проверка давления</li>
+                    <li><i class="fas fa-check"></i> Диагностика износа</li>
+                </ul>
+                <a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">
+                    Записаться
                 </a>
             </div>
-        </section>
-
-        <!-- БЛОК УСЛУГ (TEENUSED) -->
-        <section id="teenused" class="space-y-8">
-            <div class="text-center">
-                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Teenused ja Hinnad</h2>
-                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
+            <div class="pricing-card featured animate-on-scroll">
+                <div class="pricing-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Полный комплекс</h3>
+                <div class="price">3 500 ₽<span> / комплект</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Всё из тарифа "Шиномонтаж"</li>
+                    <li><i class="fas fa-check"></i> Развал-схождение 3D</li>
+                    <li><i class="fas fa-check"></i> Чистка дисков</li>
+                    <li><i class="fas fa-check"></i> Обработка резьбы</li>
+                    <li><i class="fas fa-check"></i> Приоритетная запись</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary" style="width:100%; justify-content:center;">
+                    Записаться
+                </a>
             </div>
-
-            <!-- Сетка услуг (пока со старыми ценами, которые легко поменять) -->
-            <div class="grid md:grid-cols-2 gap-4">
-                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
-                    <div>
-                        <h3 class="font-heading text-lg font-semibold text-white">Arvuti diagnostika</h3>
-                        <p class="text-xs text-slate-400 mt-1">Süsteemide täielik kontroll</p>
-                    </div>
-                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">25 €</span>
+            <div class="pricing-card animate-on-scroll">
+                <div class="pricing-icon">
+                    <i class="fas fa-warehouse"></i>
                 </div>
-
-                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
-                    <div>
-                        <h3 class="font-heading text-lg font-semibold text-white">Rehvivahetus</h3>
-                        <p class="text-xs text-slate-400 mt-1">Täisteenus ja tasakaalustus</p>
-                    </div>
-                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">40 €</span>
-                </div>
-
-                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
-                    <div>
-                        <h3 class="font-heading text-lg font-semibold text-white">Veermiku kontroll</h3>
-                        <p class="text-xs text-slate-400 mt-1">Ohutuse ja stabiilsuse tagamine</p>
-                    </div>
-                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">20 €</span>
-                </div>
-
-                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
-                    <div>
-                        <h3 class="font-heading text-lg font-semibold text-white">Õlivahetus</h3>
-                        <p class="text-xs text-slate-400 mt-1">Mootoriõli ja filtri vahetus</p>
-                    </div>
-                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">35 €</span>
-                </div>
+                <h3>Сезонное хранение</h3>
+                <div class="price">3 000 ₽<span> / сезон</span></div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Хранение 4 колёс</li>
+                    <li><i class="fas fa-check"></i> Климат-контроль</li>
+                    <li><i class="fas fa-check"></i> Маркировка и учёт</li>
+                    <li><i class="fas fa-check"></i> Мойка перед хранением</li>
+                    <li><i class="fas fa-check"></i> Доставка при замене</li>
+                </ul>
+                <a href="#contact" class="btn btn-outline" style="width:100%; justify-content:center;">
+                    Записаться
+                </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- БЛОК БРОНИРОВАНИЯ И ОТМЕНЫ (BRONEERIMINE) -->
-        <section id="broneerimine" class="space-y-8">
-            <div class="text-center">
-                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Aja Broneerimine</h2>
-                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
-            </div>
-
-            <div class="neon-border backdrop-blur-md bg-slate-950/70 p-6 md:p-8 rounded-3xl max-w-xl mx-auto space-y-6">
-                <!-- Вкладки управления записью -->
-                <div class="flex border-b border-slate-800 text-sm">
-                    <button id="tab-book" onclick="switchTab('book')" class="flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider">Uus Broneering</button>
-                    <button id="tab-cancel" onclick="switchTab('cancel')" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider">Minu Broneeringud (Tühistamine)</button>
-                </div>
-
-                <!-- ФОРМА ЗАПИСИ -->
-                <form id="form-booking" onsubmit="handleBook(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Sinu Nimi</label>
-                        <input type="text" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Kuupäev</label>
-                            <input type="date" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+    <!-- CONTACT / CTA -->
+    <section class="cta-section" id="contact">
+        <div class="cta-container">
+            <div class="cta-content animate-on-scroll">
+                <div class="section-label">Запись</div>
+                <h2>Запишитесь на сервис<br>прямо сейчас</h2>
+                <p>Оставьте заявку — мы перезвоним в течение 15 минут и подберём удобное время. Или позвоните нам напрямую.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Kellaaeg</label>
-                            <input type="time" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                            <h4>Адрес</h4>
+                            <p>г. Москва, ул. Автомобильная, 42</p>
                         </div>
                     </div>
-                    <button type="submit" class="w-full neon-btn text-slate-900 font-bold py-4 rounded-xl uppercase tracking-wider text-sm mt-4">Kinnita Broneering</button>
-                </form>
-
-                <!-- ОФИЦИАЛЬНЫЙ БЛОК ОТМЕНЫ БРОНИ -->
-                <div id="form-cancel" class="hidden space-y-4">
-                    <p class="text-sm text-slate-400 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-                        Aktiivse broneeringu tühistamiseks sisestage oma broneeringu kood või telefoninumber.
-                    </p>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Broneeringu kood või Telefoninumber</label>
-                        <input type="text" id="cancel-input" placeholder="Nt. +372..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Телефон</h4>
+                            <p>+7 (495) 123-45-67</p>
+                        </div>
                     </div>
-                    <button onclick="handleCancel()" class="w-full bg-red-950/40 hover:bg-red-900/40 border border-red-500/50 text-red-400 font-bold py-4 rounded-xl uppercase tracking-wider text-sm transition-all duration-300">
-                        Tühista broneering
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>Режим работы</h4>
+                            <p>Ежедневно 8:00 — 22:00</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@shinopro.ru</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-form animate-on-scroll">
+                <h3>Онлайн-запись</h3>
+                <p>Заполните форму — мы свяжемся с вами</p>
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" placeholder="Иван" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" placeholder="+7 (999) 000-00-00" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Услуга</label>
+                        <select required>
+                            <option value="">Выберите услугу</option>
+                            <option>Сезонная замена шин</option>
+                            <option>Балансировка колёс</option>
+                            <option>Ремонт шин</option>
+                            <option>Развал-схождение</option>
+                            <option>Хранение шин</option>
+                            <option>ТО и диагностика</option>
+                            <option>Полный комплекс</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Марка и модель авто</label>
+                        <input type="text" placeholder="Например: Toyota Camry">
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий</label>
+                        <textarea placeholder="Опишите проблему или пожелания..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        Отправить заявку
                     </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">ШИНО<span>PRO</span></div>
+                </a>
+                <p>Профессиональный шиномонтаж и автосервис в Москве. Работаем с 2009 года. Гарантия качества на все виды работ.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-        </section>
-
-        <!-- КОНТАКТЫ (KONTAKT) -->
-        <section id="kontakt" class="space-y-6 text-center py-4">
-            <div class="text-center">
-                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Kontakt</h2>
-                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
+            <div class="footer-col">
+                <h4>Услуги</h4>
+                <ul>
+                    <li><a href="#">Шиномонтаж</a></li>
+                    <li><a href="#">Балансировка</a></li>
+                    <li><a href="#">Развал-схождение</a></li>
+                    <li><a href="#">Ремонт шин</a></li>
+                    <li><a href="#">Хранение шин</a></li>
+                </ul>
             </div>
-            <p class="text-slate-300 text-lg">Asukoht: <span class="text-white font-medium">Tallinn, Eesti</span></p>
-            <p class="text-sm text-slate-500">Mobiil: +372 5747 6733</p>
-        </section>
-
-    </main>
-
-    <footer class="w-full py-8 text-center text-xs text-slate-600 border-t border-slate-950 bg-slate-950/80 backdrop-blur-md">
-        <p>&copy; 2026 My.Car.Pro. Kõik õigused kaitstud.</p>
+            <div class="footer-col">
+                <h4>Компания</h4>
+                <ul>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Цены</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Гарантия</a></li>
+                    <li><a href="#">Акции</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ШиноPRO. Все права защищены.</p>
+            <p>Разработано с заботой о вашем автомобиле</p>
+        </div>
     </footer>
 
-    <!-- СКРИПТЫ УПРАВЛЕНИЯ ИНТЕРФЕЙСОМ -->
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-        function switchTab(tab) {
-            const bookTab = document.getElementById('tab-book');
-            const cancelTab = document.getElementById('tab-cancel');
-            const bookForm = document.getElementById('form-booking');
-            const cancelForm = document.getElementById('form-cancel');
-
-            if (tab === 'book') {
-                bookTab.className = "flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider";
-                cancelTab.className = "flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider";
-                bookForm.classList.remove('hidden');
-                cancelForm.classList.add('hidden');
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
             } else {
-                cancelTab.className = "flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider";
-                bookTab.className = "flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider";
-                cancelForm.classList.remove('hidden');
-                bookForm.classList.add('hidden');
+                navbar.classList.remove('scrolled');
             }
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function handleBook(e) {
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form submission
+        function handleSubmit(e) {
             e.preventDefault();
-            alert("Edukas! Teie broneering on kinnitatud. Teavituse kood on saadetud.");
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Заявка отправлена!';
+                btn.style.background = '#22c55e';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
         }
 
-        function handleCancel() {
-            const input = document.getElementById('cancel-input').value;
-            if (!input) {
-                alert("Palun sisestage andmed tühistamiseks.");
-                return;
-            }
-            // Показываем клиенту красивое всплывающее подтверждение отмены
-            if (confirm("Kas olete kindel, et soovite selle broneeringu tühistada?")) {
-                alert("Teie broneering on edukalt tühistatud. Vaba aeg on uuesti saadaval.");
-                document.getElementById('cancel-input').value = '';
-            }
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            alert('Мобильное меню — в полной версии сайта здесь будет адаптивное меню');
         }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
     </script>
 </body>
-</html>
+</html>'''
 
+with open('/mnt/agents/output/shinomontazh.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
 
+print("Файл сохранён: /mnt/agents/output/shinomontazh.html")
+print(f"Размер: {len(html_content)} символов")
