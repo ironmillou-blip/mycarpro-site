@@ -3,255 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCarPro.ee — Шиномонтаж и Автосервис в Эстонии</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>MyCarPro — Rehvivahetus & Autoremont Tallinnas</title>
     <style>
         :root {
-            --dark-bg: #0d0d0d;
+            --bg-color: #0d0d0d;
             --card-bg: #1a1a1a;
-            --dark-yellow: #cc9900;
-            --dark-yellow-hover: #b38600;
+            --accent-gold: #c5a880;
+            --accent-hover: #e5c9a3;
+            --text-main: #f5f5f7;
+            --text-muted: #a1a1a6;
         }
-        body {
-            background-color: var(--dark-bg);
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 0;
+            line-height: 1.6;
         }
-        .text-yellow-custom { color: var(--dark-yellow); }
-        .bg-yellow-custom { background-color: var(--dark-yellow); }
-        .bg-yellow-custom:hover { background-color: var(--dark-yellow-hover); }
-        .border-yellow-custom { border-color: var(--dark-yellow); }
+        header { 
+            text-align: center; 
+            padding: 60px 20px 40px; 
+            background: linear-gradient(180deg, #161617 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid #2c2c2e; 
+        }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .logo { 
+            max-width: 150px; 
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+        .lang-switch {
+            margin-top: 25px;
+        }
+        .lang-switch span {
+            color: var(--text-muted);
+            cursor: pointer;
+            margin: 0 12px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .lang-switch span:hover, .lang-switch span.active { 
+            color: var(--accent-gold); 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+        }
+        .location {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        .service-card { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            border-radius: 16px; 
+            border: 1px solid #2c2c2e;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-2px);
+            border-color: #3a3a3c;
+        }
+        .service-card h2 { 
+            color: #fff; 
+            margin-top: 0; 
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        .btn { 
+            display: inline-block; 
+            padding: 14px 30px; 
+            background: var(--accent-gold); 
+            color: #000; 
+            text-decoration: none; 
+            font-weight: 600; 
+            border-radius: 8px; 
+            margin-top: 15px; 
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .btn:hover { 
+            background: var(--accent-hover); 
+        }
+        .phone-notice {
+            background: rgba(197, 168, 128, 0.1);
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .phone-notice p {
+            margin: 0;
+            color: var(--accent-gold);
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .phone-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            display: block;
+            margin-top: 5px;
+        }
+        .contacts-page { 
+            background: var(--card-bg); 
+            padding: 40px 30px; 
+            text-align: center; 
+            border-radius: 16px; 
+            margin-top: 60px; 
+            border: 1px solid #2c2c2e; 
+        }
+        .contacts-page h2 { 
+            color: var(--accent-gold); 
+            font-size: 24px;
+            margin-top: 0;
+        }
+        .contact-item {
+            margin: 20px 0;
+        }
+        .contact-item label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .contact-item a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .contact-item a:hover {
+            color: var(--accent-gold);
+        }
+        .lang-content {
+            display: none;
+        }
+        .lang-content.active {
+            display: block;
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
-    <header class="border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <a href="#" onclick="switchPage('main')" class="text-2xl font-black tracking-wider text-white">
-                MYCAR<span class="text-yellow-custom">PRO</span><span class="text-xs font-normal text-zinc-500">.ee</span>
-            </a>
-            <nav class="flex gap-1 sm:gap-4 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
-                <button onclick="switchPage('main')" id="nav-main" class="px-4 py-2 rounded-md text-sm font-medium transition bg-yellow-custom text-black">Главная</button>
-                <button onclick="switchPage('shina')" id="nav-shina" class="px-4 py-2 rounded-md text-sm font-medium transition text-zinc-400 hover:text-white">Шиномонтаж</button>
-                <button onclick="switchPage('service')" id="nav-service" class="px-4 py-2 rounded-md text-sm font-medium transition text-zinc-400 hover:text-white">Автосервис</button>
-            </nav>
-            <div class="text-right hidden md:block">
-                <p class="text-xs text-zinc-400">Работаем ежедневно</p>
-                <p class="text-sm font-bold text-white">09:00 — 19:00</p>
+<header>
+    <div class="logo-container">
+        <img src="logo.jpg" alt="MyCarPro" class="logo">
+    </div>
+    <div class="location">📍 Tallinn</div>
+    <div class="lang-switch">
+        <span id="btn-est" onclick="setLang('est')">EST</span>
+        <span id="btn-eng" onclick="setLang('eng')">ENG</span>
+        <span id="btn-rus" onclick="setLang('rus')" class="active">RUS</span>
+    </div>
+</header>
+
+<div class="container">
+
+    <div id="lang-rus" class="lang-content active">
+        <h3 class="section-title">Наши Услуги</h3>
+        
+        <div class="service-card">
+            <h2>Шиномонтаж</h2>
+            <p>Профессиональная замена, ремонт и балансировка колес. Быстро, качественно и на современном оборудовании.</p>
+            <a href="#booking" class="btn">Забронировать онлайн</a>
+        </div>
+
+        <div class="service-card">
+            <h2>Авторемонт</h2>
+            <p>Ремонт ходовой части, тормозных систем и техническое обслуживание автомобилей любой сложности.</p>
+            <div class="phone-notice">
+                <p>Бронирование только по телефону:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
             </div>
         </div>
-    </header>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
-        
-        <section id="page-main" class="space-y-12">
-            <div class="text-center py-12 border border-zinc-850 rounded-2xl bg-gradient-to-b from-zinc-900 to-black p-6">
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-4">
-                    Профессиональное обслуживание <br class="hidden md:inline"><span class="text-yellow-custom">вашего автомобиля</span>
-                </h1>
-                <p class="text-zinc-400 max-w-2xl mx-auto text-lg mb-8">
-                    Быстрая запись на шиномонтаж и ремонт в Таллине. Слоты по 45 минут. Выберите необходимый департамент ниже.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button onclick="switchPage('shina')" class="px-8 py-4 bg-yellow-custom text-black font-bold rounded-xl shadow-lg transition transform hover:scale-[1.02]">
-                        Запись на Шиномонтаж
-                    </button>
-                    <button onclick="switchPage('service')" class="px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl border border-zinc-700 transition transform hover:scale-[1.02]">
-                        Запись в Автосервис
-                    </button>
-                </div>
+        <div class="service-card">
+            <h2>Замена масла</h2>
+            <p>Быстрая и чистая замена моторного масла и фильтров с подбором правильных допусков для вашего двигателя.</p>
+            <div class="phone-notice">
+                <p>Бронирование только по телефону:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 rounded-xl bg-zinc-900 border border-zinc-800">
-                    <div class="text-yellow-custom text-3xl mb-3">⏱️</div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Сессии по 45 минут</h3>
-                    <p class="text-zinc-400 text-sm">Четкий тайм-менеджмент. Приезжайте к своему времени, никаких очередей.</p>
-                </div>
-                <div class="p-6 rounded-xl bg-zinc-900 border border-zinc-800">
-                    <div class="text-yellow-custom text-3xl mb-3">📅</div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Без выходных</h3>
-                    <p class="text-zinc-400 text-sm">Ждем вас каждый день с 9:00 до 19:00, включая субботу и воскресенье.</p>
-                </div>
-                <div class="p-6 rounded-xl bg-zinc-900 border border-zinc-800">
-                    <div class="text-yellow-custom text-3xl mb-3">🇪🇪</div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Локация в Таллине</h3>
-                    <p class="text-zinc-400 text-sm">Удобный подъезд, современное оборудование и гарантия на все виды работ.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-shina" class="hidden space-y-8">
-            <div class="border-l-4 border-yellow-custom pl-4">
-                <h2 class="text-3xl font-black text-white uppercase tracking-wider">Отделение: Шиномонтаж</h2>
-                <p class="text-zinc-400 text-sm mt-1">Сезонная смена резины, балансировка, ремонт проколов.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 h-fit">
-                    <h3 class="text-xl font-bold mb-4 text-yellow-custom">Наши услуги</h3>
-                    <ul class="space-y-3 text-sm text-zinc-300">
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Смена резины R15-R16</span> <span class="font-bold text-white">45 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Смена резины R17-R18</span> <span class="font-bold text-white">55 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Смена резины R19+</span> <span class="font-bold text-white">65 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Балансировка (4 колеса)</span> <span class="font-bold text-white">25 €</span></li>
-                        <li class="flex justify-between pb-2"><span>Ремонт прокола</span> <span class="font-bold text-white">от 15 €</span></li>
-                    </ul>
-                </div>
-                <div class="lg:col-span-2 bg-zinc-900 p-6 rounded-xl border border-zinc-800">
-                    <h3 class="text-xl font-bold mb-6 text-white">Онлайн-бронирование (45 минут)</h3>
-                    <div class="booking-engine" data-service-type="Шиномонтаж"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-service" class="hidden space-y-8">
-            <div class="border-l-4 border-yellow-custom pl-4">
-                <h2 class="text-3xl font-black text-white uppercase tracking-wider">Отделение: Автосервис</h2>
-                <p class="text-zinc-400 text-sm mt-1">Диагностика, ремонт ходовой, замена масла, обслуживание тормозных систем.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800 h-fit">
-                    <h3 class="text-xl font-bold mb-4 text-yellow-custom">Популярные работы</h3>
-                    <ul class="space-y-3 text-sm text-zinc-300">
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Компьютерная диагностика</span> <span class="font-bold text-white">30 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Замена масла и фильтра</span> <span class="font-bold text-white">25 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Замена тормозных колодок</span> <span class="font-bold text-white">от 35 €</span></li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-2"><span>Ремонт подвески (1 час)</span> <span class="font-bold text-white">45 €</span></li>
-                    </ul>
-                    <p class="text-xs text-zinc-500 mt-4 italic">*Если ремонт требует больше времени, вы можете забронировать несколько слотов подряд.</p>
-                </div>
-                <div class="lg:col-span-2 bg-zinc-900 p-6 rounded-xl border border-zinc-800">
-                    <h3 class="text-xl font-bold mb-6 text-white">Онлайн-бронирование (45 минут)</h3>
-                    <div class="booking-engine" data-service-type="Автосервис"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="booking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl max-w-md w-full text-center relative">
-            <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">✓</div>
-            <h3 class="text-xl font-bold mb-2 text-white">Заявка успешно принята!</h3>
-            <p id="modal-details" class="text-sm text-zinc-400 mb-6"></p>
-            <button onclick="closeModal()" class="w-full py-3 bg-yellow-custom text-black font-bold rounded-lg transition">Отлично</button>
         </div>
     </div>
 
-    <footer class="bg-black border-t border-zinc-900 mt-auto py-8 text-zinc-500 text-sm">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <p class="font-bold text-zinc-300">© 2026 mycarpro.ee. Все права защищены.</p>
-                <p class="text-xs text-zinc-600 mt-1">Таллин, Эстония | Время работы: Пн-Вс 09:00 - 19:00</p>
-            </div>
-            <div class="flex gap-4 text-xs">
-                <a href="#" onclick="switchPage('shina')" class="hover:text-white transition">Шиномонтаж</a>
-                <a href="#" onclick="switchPage('service')" class="hover:text-white transition">Автосервис</a>
+    <div id="lang-est" class="lang-content">
+        <h3 class="section-title">Meie Teenused</h3>
+        
+        <div class="service-card">
+            <h2>Rehvitööd</h2>
+            <p>Professionaalne rehvivahetus, remont ja tasakaalustamine. Kiire ja usaldusväärne teenindus Tallinnas.</p>
+            <a href="#booking" class="btn">Broneeri internetis</a>
+        </div>
+
+        <div class="service-card">
+            <h2>Autoremont</h2>
+            <p>Veermiku remont, pidurisüsteemide hooldus ja muud lukksepatööd teie autole.</p>
+            <div class="phone-notice">
+                <p>Broneerimine ainult telefoni teel:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
             </div>
         </div>
-    </footer>
 
-    <script>
-        const timeSlots = [
-            "09:00 - 09:45", "09:45 - 10:30", "10:30 - 11:15", "11:15 - 12:00",
-            "12:00 - 12:45", "12:45 - 13:30", "13:30 - 14:15", "14:15 - 15:00",
-            "15:00 - 15:45", "15:45 - 16:30", "16:30 - 17:15", "17:15 - 18:00",
-            "18:00 - 18:45"
-        ];
+        <div class="service-card">
+            <h2>Õlivahetus</h2>
+            <p>Mootoriõli ja filtrite kiire vahetus. Kasutame ainult kvaliteetseid õlisid vastavalt tootja nõuetele.</p>
+            <div class="phone-notice">
+                <p>Broneerimine ainult telefoni teel:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+            </div>
+        </div>
+    </div>
 
-        function switchPage(pageId) {
-            const pages = ['main', 'shina', 'service'];
-            pages.forEach(p => {
-                document.getElementById(`page-${p}`).classList.add('hidden');
-                document.getElementById(`nav-${p}`).className = "px-4 py-2 rounded-md text-sm font-medium transition text-zinc-400 hover:text-white";
-            });
+    <div id="lang-eng" class="lang-content">
+        <h3 class="section-title">Our Services</h3>
+        
+        <div class="service-card">
+            <h2>Tire Service</h2>
+            <p>Professional tire changing, repair, and balancing using modern equipment. Fast and secure.</p>
+            <a href="#booking" class="btn">Book Online</a>
+        </div>
 
-            document.getElementById(`page-${pageId}`).classList.remove('hidden');
-            document.getElementById(`nav-${pageId}`).className = "px-4 py-2 rounded-md text-sm font-medium transition bg-yellow-custom text-black font-bold";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        <div class="service-card">
+            <h2>Car Repair</h2>
+            <p>Suspension repair, brake system maintenance, and general mechanical works for your vehicle.</p>
+            <div class="phone-notice">
+                <p>Booking via phone only:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+            </div>
+        </div>
 
-        document.querySelectorAll('.booking-engine').forEach(container => {
-            const serviceType = container.getAttribute('data-service-type');
-            const today = new Date().toISOString().split('T')[0];
+        <div class="service-card">
+            <h2>Oil Change</h2>
+            <p>Fast engine oil and filters replacement according to your vehicle's specifications.</p>
+            <div class="phone-notice">
+                <p>Booking via phone only:</p>
+                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+            </div>
+        </div>
+    </div>
 
-            container.innerHTML = `
-                <form onsubmit="handleBooking(event, '${serviceType}')" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Выберите дату</label>
-                            <input type="date" min="${today}" value="${today}" required class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-white focus:outline-none focus:border-yellow-custom">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Ваше имя / Автомобиль</label>
-                            <input type="text" placeholder="Имя и госномер машины" required class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-white placeholder-zinc-600 focus:outline-none focus:border-yellow-custom">
-                        </div>
-                    </div>
+    <div class="contacts-page">
+        <h2 id="contacts-title">Контакты / Contacts</h2>
+        
+        <div class="contact-item">
+            <label>Телефон</label>
+            <a href="tel:+37257476733">+372 57476733</a>
+        </div>
+        
+        <div class="contact-item">
+            <label>Email</label>
+            <a href="mailto:mycarproo@gmail.com">mycarproo@gmail.com</a>
+        </div>
+    </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Доступное время (Сессия 45 мин)</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 slot-container">
-                            ${timeSlots.map((slot, index) => `
-                                <label class="border border-zinc-800 bg-zinc-950 p-3 text-center rounded-lg cursor-pointer transition hover:border-zinc-600 block text-sm relative">
-                                    <input type="radio" name="time-slot-${serviceType.toLowerCase()}" value="${slot}" required class="absolute opacity-0 slot-radio">
-                                    <span class="text-white font-mono">${slot}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
+</div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center pt-2">
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Номер телефона</label>
-                            <input type="tel" placeholder="+372 ...." required class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-white placeholder-zinc-600 focus:outline-none focus:border-yellow-custom">
-                        </div>
-                        <div class="pt-6">
-                            <button type="submit" class="w-full py-3 bg-yellow-custom text-black font-bold rounded-lg transition shadow-md uppercase tracking-wider text-sm">
-                                Подтвердить запись
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            `;
+<script>
+    function setLang(lang) {
+        // Скрываем все языковые блоки
+        document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+        // Снимаем активность со всех кнопок
+        document.querySelectorAll('.lang-switch span').forEach(el => el.classList.remove('active'));
+        
+        // Включаем нужный язык и кнопку
+        document.getElementById('lang-' + lang).classList.add('active');
+        document.getElementById('btn-' + lang).classList.add('active');
+        
+        // Локализация заголовка контактов
+        const contactTitle = document.getElementById('contacts-title');
+        if(lang === 'rus') contactTitle.innerText = 'Контакты';
+        if(lang === 'est') contactTitle.innerText = 'Kontaktid';
+        if(lang === 'eng') contactTitle.innerText = 'Contacts';
+    }
+</script>
 
-            const labels = container.querySelectorAll('.slot-container label');
-            labels.forEach(label => {
-                const input = label.querySelector('input');
-                input.addEventListener('change', () => {
-                    labels.forEach(l => l.classList.remove('border-yellow-custom', 'bg-zinc-900'));
-                    if(input.checked) {
-                        label.classList.add('border-yellow-custom', 'bg-zinc-900');
-                    }
-                });
-            });
-        });
-
-        function handleBooking(event, service) {
-            event.preventDefault();
-            const form = event.target;
-            const date = form.querySelector('input[type="date"]').value;
-            const name = form.querySelector('input[type="text"]').value;
-            const phone = form.querySelector('input[type="tel"]').value;
-            const slot = form.querySelector('input[type="radio"]:checked').value;
-
-            document.getElementById('modal-details').innerHTML = `
-                Вы записаны в отделение <strong>${service}</strong>.<br>
-                <span class="text-yellow-custom font-mono block my-2">${date} в ${slot}</span>
-                Мы свяжемся с вами по номеру ${phone} для подтверждения марки машины (${name}).
-            `;
-            
-            document.getElementById('booking-modal').classList.remove('hidden');
-            document.getElementById('booking-modal').classList.add('flex');
-            
-            form.reset();
-            form.querySelectorAll('.slot-container label').forEach(l => l.classList.remove('border-yellow-custom', 'bg-zinc-900'));
-        }
-
-        function closeModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
-            document.getElementById('booking-modal').classList.remove('flex');
-        }
-    </script>
 </body>
 </html>
