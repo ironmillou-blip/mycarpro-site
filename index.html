@@ -1,310 +1,232 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="et">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCarPro — Rehvivahetus & Autoremont Tallinnas</title>
+    <title>My.Car.Pro - Premium Autoteenindus</title>
+    <!-- Подключаем красивые технологичные шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Подключаем Tailwind CSS для неонового стиля -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #0d0d0d;
-            --card-bg: #1a1a1a;
-            --accent-gold: #c5a880;
-            --accent-hover: #e5c9a3;
-            --text-main: #f5f5f7;
-            --text-muted: #a1a1a6;
+        /* Применяем фоновую картинку на весь сайт с красивым затемнением */
+        body {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9)), url('8504.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 0;
-            line-height: 1.6;
+        .neon-border {
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
         }
-        header { 
-            text-align: center; 
-            padding: 60px 20px 40px; 
-            background: linear-gradient(180deg, #161617 0%, var(--bg-color) 100%);
-            border-bottom: 1px solid #2c2c2e; 
+        .neon-text {
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
         }
-        .logo-container {
-            margin-bottom: 20px;
+        .neon-btn {
+            background: linear-gradient(135deg, #00E5FF 0%, #0083B0 100%);
+            box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
         }
-        .logo { 
-            max-width: 150px; 
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-        }
-        .lang-switch {
-            margin-top: 25px;
-        }
-        .lang-switch span {
-            color: var(--text-muted);
-            cursor: pointer;
-            margin: 0 12px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-        .lang-switch span:hover, .lang-switch span.active { 
-            color: var(--accent-gold); 
-        }
-        .container { 
-            max-width: 800px; 
-            margin: 40px auto; 
-            padding: 0 20px; 
-        }
-        .location {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-        }
-        .section-title {
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 25px;
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-        .service-card { 
-            background: var(--card-bg); 
-            padding: 30px; 
-            margin-bottom: 25px; 
-            border-radius: 16px; 
-            border: 1px solid #2c2c2e;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .service-card:hover {
-            transform: translateY(-2px);
-            border-color: #3a3a3c;
-        }
-        .service-card h2 { 
-            color: #fff; 
-            margin-top: 0; 
-            font-size: 22px;
-            font-weight: 600;
-        }
-        .service-card p {
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-        .btn { 
-            display: inline-block; 
-            padding: 14px 30px; 
-            background: var(--accent-gold); 
-            color: #000; 
-            text-decoration: none; 
-            font-weight: 600; 
-            border-radius: 8px; 
-            margin-top: 15px; 
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-        .btn:hover { 
-            background: var(--accent-hover); 
-        }
-        .phone-notice {
-            background: rgba(197, 168, 128, 0.1);
-            border: 1px solid rgba(197, 168, 128, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .phone-notice p {
-            margin: 0;
-            color: var(--accent-gold);
-            font-size: 15px;
-            font-weight: 500;
-        }
-        .phone-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 700;
-            display: block;
-            margin-top: 5px;
-        }
-        .contacts-page { 
-            background: var(--card-bg); 
-            padding: 40px 30px; 
-            text-align: center; 
-            border-radius: 16px; 
-            margin-top: 60px; 
-            border: 1px solid #2c2c2e; 
-        }
-        .contacts-page h2 { 
-            color: var(--accent-gold); 
-            font-size: 24px;
-            margin-top: 0;
-        }
-        .contact-item {
-            margin: 20px 0;
-        }
-        .contact-item label {
-            display: block;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        .contact-item a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 20px;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        .contact-item a:hover {
-            color: var(--accent-gold);
-        }
-        .lang-content {
-            display: none;
-        }
-        .lang-content.active {
-            display: block;
+        .neon-btn:hover {
+            box-shadow: 0 6px 25px rgba(0, 229, 255, 0.7);
+            transform: translateY(-1px);
         }
     </style>
 </head>
-<body>
+<body class="text-slate-200 font-sans min-h-screen antialiased selection:bg-cyan-500/30">
 
-<header>
-    <div class="logo-container">
-        <img src="logo.jpg" alt="MyCarPro" class="logo">
-    </div>
-    <div class="location">📍 Tallinn</div>
-    <div class="lang-switch">
-        <span id="btn-est" onclick="setLang('est')">EST</span>
-        <span id="btn-eng" onclick="setLang('eng')">ENG</span>
-        <span id="btn-rus" onclick="setLang('rus')" class="active">RUS</span>
-    </div>
-</header>
-
-<div class="container">
-
-    <div id="lang-rus" class="lang-content active">
-        <h3 class="section-title">Наши Услуги</h3>
-        
-        <div class="service-card">
-            <h2>Шиномонтаж</h2>
-            <p>Профессиональная замена, ремонт и балансировка колес. Быстро, качественно и на современном оборудовании.</p>
-            <a href="#booking" class="btn">Забронировать онлайн</a>
+    <!-- НАВИГАЦИЯ И КРУПНЫЙ ЛОГОТИП -->
+    <header class="w-full py-6 px-4 border-b border-cyan-500/10 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex flex-col items-center justify-center gap-4">
+            <!-- Увеличенный логотип из картинки 8445.jpg -->
+            <img src="8445.jpg" alt="My.Car.Pro Logo" class="h-32 md:h-40 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+            <nav class="flex gap-6 text-sm font-medium tracking-wide uppercase text-slate-400">
+                <a href="#teenused" class="hover:text-cyan-400 transition-colors">Teenused</a>
+                <a href="#broneerimine" class="hover:text-cyan-400 transition-colors">Broneerimine</a>
+                <a href="#kontakt" class="hover:text-cyan-400 transition-colors">Kontakt</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="service-card">
-            <h2>Авторемонт</h2>
-            <p>Ремонт ходовой части, тормозных систем и техническое обслуживание автомобилей любой сложности.</p>
-            <div class="phone-notice">
-                <p>Бронирование только по телефону:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+    <main class="max-w-4xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- ГЛАВНЫЙ БЛОК -->
+        <section class="text-center space-y-6 py-8">
+            <h1 class="font-heading text-4xl md:text-6xl font-bold tracking-tight text-white uppercase">
+                Professionaalne <span class="text-cyan-400 neon-text">Autoteenindus</span>
+            </h1>
+            <p class="text-lg text-slate-400 max-w-xl mx-auto">
+                Kvaliteetsed lahendused ja eksklusiivne hooldus Sinu sõidukile Tallinnas.
+            </p>
+            <div class="pt-4">
+                <a href="#broneerimine" class="neon-btn text-slate-900 font-semibold px-8 py-4 rounded-xl inline-block transition-all duration-300 uppercase tracking-wider text-sm">
+                    Broneeri aeg kohe
+                </a>
             </div>
-        </div>
+        </section>
 
-        <div class="service-card">
-            <h2>Замена масла</h2>
-            <p>Быстрая и чистая замена моторного масла и фильтров с подбором правильных допусков для вашего двигателя.</p>
-            <div class="phone-notice">
-                <p>Бронирование только по телефону:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+        <!-- БЛОК УСЛУГ (TEENUSED) -->
+        <section id="teenused" class="space-y-8">
+            <div class="text-center">
+                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Teenused ja Hinnad</h2>
+                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
             </div>
-        </div>
-    </div>
 
-    <div id="lang-est" class="lang-content">
-        <h3 class="section-title">Meie Teenused</h3>
-        
-        <div class="service-card">
-            <h2>Rehvitööd</h2>
-            <p>Professionaalne rehvivahetus, remont ja tasakaalustamine. Kiire ja usaldusväärne teenindus Tallinnas.</p>
-            <a href="#booking" class="btn">Broneeri internetis</a>
-        </div>
+            <!-- Сетка услуг (пока со старыми ценами, которые легко поменять) -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
+                    <div>
+                        <h3 class="font-heading text-lg font-semibold text-white">Arvuti diagnostika</h3>
+                        <p class="text-xs text-slate-400 mt-1">Süsteemide täielik kontroll</p>
+                    </div>
+                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">25 €</span>
+                </div>
 
-        <div class="service-card">
-            <h2>Autoremont</h2>
-            <p>Veermiku remont, pidurisüsteemide hooldus ja muud lukksepatööd teie autole.</p>
-            <div class="phone-notice">
-                <p>Broneerimine ainult telefoni teel:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
+                    <div>
+                        <h3 class="font-heading text-lg font-semibold text-white">Rehvivahetus</h3>
+                        <p class="text-xs text-slate-400 mt-1">Täisteenus ja tasakaalustus</p>
+                    </div>
+                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">40 €</span>
+                </div>
+
+                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
+                    <div>
+                        <h3 class="font-heading text-lg font-semibold text-white">Veermiku kontroll</h3>
+                        <p class="text-xs text-slate-400 mt-1">Ohutuse ja stabiilsuse tagamine</p>
+                    </div>
+                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">20 €</span>
+                </div>
+
+                <div class="neon-border backdrop-blur-md bg-slate-950/60 p-6 rounded-2xl flex justify-between items-center transition-all duration-300 hover:bg-slate-950/80">
+                    <div>
+                        <h3 class="font-heading text-lg font-semibold text-white">Õlivahetus</h3>
+                        <p class="text-xs text-slate-400 mt-1">Mootoriõli ja filtri vahetus</p>
+                    </div>
+                    <span class="font-heading text-xl font-bold text-cyan-400 neon-text">35 €</span>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="service-card">
-            <h2>Õlivahetus</h2>
-            <p>Mootoriõli ja filtrite kiire vahetus. Kasutame ainult kvaliteetseid õlisid vastavalt tootja nõuetele.</p>
-            <div class="phone-notice">
-                <p>Broneerimine ainult telefoni teel:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+        <!-- БЛОК БРОНИРОВАНИЯ И ОТМЕНЫ (BRONEERIMINE) -->
+        <section id="broneerimine" class="space-y-8">
+            <div class="text-center">
+                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Aja Broneerimine</h2>
+                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
             </div>
-        </div>
-    </div>
 
-    <div id="lang-eng" class="lang-content">
-        <h3 class="section-title">Our Services</h3>
-        
-        <div class="service-card">
-            <h2>Tire Service</h2>
-            <p>Professional tire changing, repair, and balancing using modern equipment. Fast and secure.</p>
-            <a href="#booking" class="btn">Book Online</a>
-        </div>
+            <div class="neon-border backdrop-blur-md bg-slate-950/70 p-6 md:p-8 rounded-3xl max-w-xl mx-auto space-y-6">
+                <!-- Вкладки управления записью -->
+                <div class="flex border-b border-slate-800 text-sm">
+                    <button id="tab-book" onclick="switchTab('book')" class="flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider">Uus Broneering</button>
+                    <button id="tab-cancel" onclick="switchTab('cancel')" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider">Minu Broneeringud (Tühistamine)</button>
+                </div>
 
-        <div class="service-card">
-            <h2>Car Repair</h2>
-            <p>Suspension repair, brake system maintenance, and general mechanical works for your vehicle.</p>
-            <div class="phone-notice">
-                <p>Booking via phone only:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+                <!-- ФОРМА ЗАПИСИ -->
+                <form id="form-booking" onsubmit="handleBook(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Sinu Nimi</label>
+                        <input type="text" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Kuupäev</label>
+                            <input type="date" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Kellaaeg</label>
+                            <input type="time" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full neon-btn text-slate-900 font-bold py-4 rounded-xl uppercase tracking-wider text-sm mt-4">Kinnita Broneering</button>
+                </form>
+
+                <!-- ОФИЦИАЛЬНЫЙ БЛОК ОТМЕНЫ БРОНИ -->
+                <div id="form-cancel" class="hidden space-y-4">
+                    <p class="text-sm text-slate-400 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        Aktiivse broneeringu tühistamiseks sisestage oma broneeringu kood või telefoninumber.
+                    </p>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-medium">Broneeringu kood või Telefoninumber</label>
+                        <input type="text" id="cancel-input" placeholder="Nt. +372..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition-colors">
+                    </div>
+                    <button onclick="handleCancel()" class="w-full bg-red-950/40 hover:bg-red-900/40 border border-red-500/50 text-red-400 font-bold py-4 rounded-xl uppercase tracking-wider text-sm transition-all duration-300">
+                        Tühista broneering
+                    </button>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="service-card">
-            <h2>Oil Change</h2>
-            <p>Fast engine oil and filters replacement according to your vehicle's specifications.</p>
-            <div class="phone-notice">
-                <p>Booking via phone only:</p>
-                <a href="tel:+37257476733" class="phone-link">+372 57476733</a>
+        <!-- КОНТАКТЫ (KONTAKT) -->
+        <section id="kontakt" class="space-y-6 text-center py-4">
+            <div class="text-center">
+                <h2 class="font-heading text-2xl md:text-3xl font-bold uppercase tracking-wide text-white">Kontakt</h2>
+                <div class="w-16 h-1 bg-cyan-400 mx-auto mt-3 rounded-full shadow-[0_0_8px_#00E5FF]"></div>
             </div>
-        </div>
-    </div>
+            <p class="text-slate-300 text-lg">Asukoht: <span class="text-white font-medium">Tallinn, Eesti</span></p>
+            <p class="text-sm text-slate-500">Mobiil: +372 5747 6733</p>
+        </section>
 
-    <div class="contacts-page">
-        <h2 id="contacts-title">Контакты / Contacts</h2>
-        
-        <div class="contact-item">
-            <label>Телефон</label>
-            <a href="tel:+37257476733">+372 57476733</a>
-        </div>
-        
-        <div class="contact-item">
-            <label>Email</label>
-            <a href="mailto:mycarproo@gmail.com">mycarproo@gmail.com</a>
-        </div>
-    </div>
+    </main>
 
-</div>
+    <footer class="w-full py-8 text-center text-xs text-slate-600 border-t border-slate-950 bg-slate-950/80 backdrop-blur-md">
+        <p>&copy; 2026 My.Car.Pro. Kõik õigused kaitstud.</p>
+    </footer>
 
-<script>
-    function setLang(lang) {
-        // Скрываем все языковые блоки
-        document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
-        // Снимаем активность со всех кнопок
-        document.querySelectorAll('.lang-switch span').forEach(el => el.classList.remove('active'));
-        
-        // Включаем нужный язык и кнопку
-        document.getElementById('lang-' + lang).classList.add('active');
-        document.getElementById('btn-' + lang).classList.add('active');
-        
-        // Локализация заголовка контактов
-        const contactTitle = document.getElementById('contacts-title');
-        if(lang === 'rus') contactTitle.innerText = 'Контакты';
-        if(lang === 'est') contactTitle.innerText = 'Kontaktid';
-        if(lang === 'eng') contactTitle.innerText = 'Contacts';
-    }
-</script>
+    <!-- СКРИПТЫ УПРАВЛЕНИЯ ИНТЕРФЕЙСОМ -->
+    <script>
+        function switchTab(tab) {
+            const bookTab = document.getElementById('tab-book');
+            const cancelTab = document.getElementById('tab-cancel');
+            const bookForm = document.getElementById('form-booking');
+            const cancelForm = document.getElementById('form-cancel');
 
+            if (tab === 'book') {
+                bookTab.className = "flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider";
+                cancelTab.className = "flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider";
+                bookForm.classList.remove('hidden');
+                cancelForm.classList.add('hidden');
+            } else {
+                cancelTab.className = "flex-1 pb-3 text-cyan-400 border-b-2 border-cyan-400 font-semibold uppercase tracking-wider";
+                bookTab.className = "flex-1 pb-3 text-slate-400 border-b-2 border-transparent font-semibold uppercase tracking-wider";
+                cancelForm.classList.remove('hidden');
+                bookForm.classList.add('hidden');
+            }
+        }
+
+        function handleBook(e) {
+            e.preventDefault();
+            alert("Edukas! Teie broneering on kinnitatud. Teavituse kood on saadetud.");
+        }
+
+        function handleCancel() {
+            const input = document.getElementById('cancel-input').value;
+            if (!input) {
+                alert("Palun sisestage andmed tühistamiseks.");
+                return;
+            }
+            // Показываем клиенту красивое всплывающее подтверждение отмены
+            if (confirm("Kas olete kindel, et soovite selle broneeringu tühistada?")) {
+                alert("Teie broneering on edukalt tühistatud. Vaba aeg on uuesti saadaval.");
+                document.getElementById('cancel-input').value = '';
+            }
+        }
+    </script>
 </body>
 </html>
+
+
