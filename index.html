@@ -1,4 +1,325 @@
-<!DOCTYPE html>
+
+# Continue writing the file with translations and JS
+with open('/mnt/agents/output/mycarpro.html', 'a', encoding='utf-8') as f:
+    f.write('''        // ===================== TRANSLATIONS =====================
+        const translations = {
+            ru: {
+                nav_services: "Услуги", nav_pricing: "Цены", nav_booking: "Бронирование", nav_contact: "Контакты",
+                hero_badge: "Работаем ежедневно 9:00 — 19:00",
+                hero_title1: "Профессиональный", hero_title2: "шиномонтаж", hero_title3: "в Таллинне",
+                hero_desc: "Быстрая и качественная замена шин любого радиуса. Современное оборудование, опытные мастера, запись онлайн.",
+                btn_book: "Записаться онлайн", btn_call: "Позвонить",
+                stat_years: "Лет опыта", stat_min: "Минут замена", stat_slot: "Минут слот",
+                float_fast: "Быстрая замена", float_guarantee: "Гарантия качества", float_guarantee_desc: "На все работы",
+                services_label: "Наши услуги",
+                services_title: "Полный спектр услуг<br>для вашего автомобиля",
+                services_desc: "Современное оборудование и опытные мастера. Каждый клиент — наш приоритет.",
+                service1_title: "Сезонная замена шин", service1_desc: "Быстрая и аккуратная замена летней и зимней резины. Сохранение балансировки и давления.",
+                service2_title: "Балансировка колёс", service2_desc: "Точная балансировка на современном стенде. Устранение вибраций при движении.",
+                service3_title: "Ремонт шин", service3_desc: "Заплатки, жгуты, грибки — ремонт проколов любой сложности с гарантией.",
+                service4_title: "Развал-схождение", service4_desc: "Настройка углов установки колёс. Экономия топлива и продление срока шин.",
+                service5_title: "Хранение шин", service5_desc: "Сезонное хранение комплектов шин в сухом помещении с маркировкой.",
+                service6_title: "ТО и диагностика", service6_desc: "Замена масла, фильтров, тормозных колодок. Компьютерная диагностика.",
+                service_per_set: "/ комплект", service_per_wheel: "/ колесо", service_per_puncture: "/ прокол",
+                service_per_axle: "/ ось", service_per_season: "/ сезон", service_per_service: "/ услуга",
+                btn_details: "Подробнее", btn_book_service: "Записаться",
+                pricing_label: "Цены на шиномонтаж", pricing_title: "Полная замена 4 колёс",
+                pricing_desc: "Прозрачные цены без скрытых платежей. В стоимость входит: снятие/установка, монтаж/демонтаж, балансировка.",
+                pricing_table_title: "Шиномонтаж — полная замена 4 колёс", pricing_from: "от 40 €",
+                th_radius: "Радиус", th_price: "Цена",
+                pricing_note1: "Кроссовер, микроавтобус (mahtuniversal): +5 €",
+                pricing_note2: "Toyota Land Cruiser и аналоги: +10 €",
+                btn_book_now: "Забронировать сейчас",
+                booking_label: "Бронирование",
+                booking_title: "Запишитесь на шиномонтаж",
+                booking_desc: "Выберите дату и время. Каждый слот — 45 минут. Работаем с 9:00 до 19:00.",
+                booking_form_title: "Онлайн-бронирование",
+                booking_form_desc: "Заполните форму — мы подтвердим запись по SMS",
+                label_date: "Выберите дату", label_time: "Выберите время",
+                label_car_brand: "Марка авто", label_car_model: "Модель",
+                label_plate: "Номер машины", label_phone: "Телефон",
+                label_service: "Услуга", label_comment: "Комментарий",
+                opt_select: "Выберите услугу", opt_tire: "Замена шин (полный комплект)",
+                opt_balance: "Балансировка", opt_repair: "Ремонт шин",
+                opt_alignment: "Развал-схождение", opt_storage: "Хранение шин",
+                opt_maintenance: "ТО и диагностика",
+                btn_submit_booking: "Подтвердить бронирование",
+                contact_label: "Контакты", contact_title: "Свяжитесь с нами",
+                contact_desc: "Мы всегда рады помочь. Звоните, пишите или приезжайте — подберём удобное время.",
+                label_address: "Адрес", label_phone_short: "Телефон",
+                label_hours: "Режим работы", hours_value: "Ежедневно 9:00 — 19:00",
+                contact_form_title: "Быстрая связь", contact_form_desc: "Оставьте сообщение — ответим в течение часа",
+                label_name: "Ваше имя", label_message: "Сообщение", btn_send: "Отправить",
+                footer_desc: "Профессиональный шиномонтаж и автосервис в Таллинне. Качественно, быстро, надёжно.",
+                footer_services: "Услуги", footer_tire: "Шиномонтаж", footer_balance: "Балансировка",
+                footer_alignment: "Развал-схождение", footer_repair: "Ремонт шин", footer_storage: "Хранение шин",
+                footer_company: "Компания", footer_about: "О нас", footer_prices: "Цены",
+                footer_booking: "Бронирование", footer_contacts: "Контакты",
+                footer_help: "Помощь", footer_faq: "FAQ", footer_guarantee: "Гарантия",
+                footer_privacy: "Политика конфиденциальности",
+                footer_rights: "Все права защищены.", footer_tagline: "Tallinn, Estonia",
+                modal_title: "Бронирование подтверждено!",
+                modal_desc: "Мы получили вашу заявку. Подтверждение придёт по SMS в ближайшее время.",
+                modal_close: "Отлично"
+            },
+            et: {
+                nav_services: "Teenused", nav_pricing: "Hinnad", nav_booking: "Broneerimine", nav_contact: "Kontaktid",
+                hero_badge: "Töötab iga päev 9:00 — 19:00",
+                hero_title1: "Professionaalne", hero_title2: "rehvivahetus", hero_title3: "Tallinnas",
+                hero_desc: "Kiire ja kvaliteetne rehvivahetus igas suuruses. Kaasaegne seadmed, kogenud meistrid, online broneerimine.",
+                btn_book: "Broneeri online", btn_call: "Helista",
+                stat_years: "Aastat kogemust", stat_min: "Min vahetus", stat_slot: "Min aeg",
+                float_fast: "Kiire vahetus", float_guarantee: "Kvaliteedi garantii", float_guarantee_desc: "Kõikidele töödele",
+                services_label: "Meie teenused",
+                services_title: "Täielik teenuste valik<br>teie autole",
+                services_desc: "Kaasaegne seadmed ja kogenud meistrid. Iga klient on meie prioriteet.",
+                service1_title: "Hooajaline rehvivahetus", service1_desc: "Kiire ja hoolikas suve- ja talverehvide vahetus. Tasakaalu ja rõhu säilitamine.",
+                service2_title: "Rataste tasakaalustamine", service2_desc: "Täpne tasakaalustamine kaasaegsel seadmel. Vibreerimise kõrvaldamine sõidu ajal.",
+                service3_title: "Rehvide remont", service3_desc: "Paigad, niidid, seened — mis tahes keerukusega rehvi parandused garantiiga.",
+                service4_title: "Sillastend", service4_desc: "Rataste nurkade seadistamine. Kütusekokkuvõtt ja rehvide eluea pikendamine.",
+                service5_title: "Rehvide hoiustamine", service5_desc: "Hooajaline rehvikomplektide hoiustamine kuivas ruumis märgistusega.",
+                service6_title: "Hooldus ja diagnostika", service6_desc: "Õli, filtrite, piduriklotside vahetus. Arvutidiagnostika.",
+                service_per_set: "/ komplekt", service_per_wheel: "/ ratas", service_per_puncture: "/ auk",
+                service_per_axle: "/ telg", service_per_season: "/ hooaeg", service_per_service: "/ teenus",
+                btn_details: "Lisateave", btn_book_service: "Broneeri",
+                pricing_label: "Rehvivahetuse hinnad", pricing_title: "Täielik 4 ratta vahetus",
+                pricing_desc: "Läbipaistvad hinnad ilma peidetud tasudeta. Hinna sees: eemaldamine/paigaldamine, montaaž/demontaaž, tasakaalustamine.",
+                pricing_table_title: "Rehvivahetus — täielik 4 ratta vahetus", pricing_from: "alates 40 €",
+                th_radius: "Raadius", th_price: "Hind",
+                pricing_note1: "Krossover, mahtuniversal: +5 €",
+                pricing_note2: "Toyota Land Cruiser ja analoogid: +10 €",
+                btn_book_now: "Broneeri kohe",
+                booking_label: "Broneerimine",
+                booking_title: "Registreeru rehvivahetusele",
+                booking_desc: "Valige kuupäev ja aeg. Iga aeg — 45 minutit. Töötab 9:00 kuni 19:00.",
+                booking_form_title: "Online broneerimine",
+                booking_form_desc: "Täitke vorm — kinnitame broneeringu SMS-iga",
+                label_date: "Valige kuupäev", label_time: "Valige aeg",
+                label_car_brand: "Auto mark", label_car_model: "Mudel",
+                label_plate: "Auto number", label_phone: "Telefon",
+                label_service: "Teenus", label_comment: "Kommentaar",
+                opt_select: "Valige teenus", opt_tire: "Rehvivahetus (täielik komplekt)",
+                opt_balance: "Tasakaalustamine", opt_repair: "Rehvide remont",
+                opt_alignment: "Sillastend", opt_storage: "Rehvide hoiustamine",
+                opt_maintenance: "Hooldus ja diagnostika",
+                btn_submit_booking: "Kinnita broneering",
+                contact_label: "Kontaktid", contact_title: "Võtke meiega ühendust",
+                contact_desc: "Oleme alati valmis aitama. Helistage, kirjutage või tulge — leiate sobiva aja.",
+                label_address: "Aadress", label_phone_short: "Telefon",
+                label_hours: "Tööaeg", hours_value: "Iga päev 9:00 — 19:00",
+                contact_form_title: "Kiire ühendus", contact_form_desc: "Jätke sõnum — vastame tunni jooksul",
+                label_name: "Teie nimi", label_message: "Sõnum", btn_send: "Saada",
+                footer_desc: "Professionaalne rehvivahetus ja autoservice Tallinnas. Kvaliteetselt, kiiresti, usaldusväärselt.",
+                footer_services: "Teenused", footer_tire: "Rehvivahetus", footer_balance: "Tasakaalustamine",
+                footer_alignment: "Sillastend", footer_repair: "Rehvide remont", footer_storage: "Rehvide hoiustamine",
+                footer_company: "Ettevõte", footer_about: "Meist", footer_prices: "Hinnad",
+                footer_booking: "Broneerimine", footer_contacts: "Kontaktid",
+                footer_help: "Abi", footer_faq: "KKK", footer_guarantee: "Garantii",
+                footer_privacy: "Privaatsuspoliitika",
+                footer_rights: "Kõik õigused kaitstud.", footer_tagline: "Tallinn, Eesti",
+                modal_title: "Broneering kinnitatud!",
+                modal_desc: "Saime teie taotluse. Kinnitus saabub SMS-iga peagi.",
+                modal_close: "Suurepärane"
+            },
+            en: {
+                nav_services: "Services", nav_pricing: "Pricing", nav_booking: "Booking", nav_contact: "Contact",
+                hero_badge: "Open daily 9:00 — 19:00",
+                hero_title1: "Professional", hero_title2: "tire service", hero_title3: "in Tallinn",
+                hero_desc: "Fast and quality tire replacement of any size. Modern equipment, experienced mechanics, online booking.",
+                btn_book: "Book online", btn_call: "Call us",
+                stat_years: "Years experience", stat_min: "Min replacement", stat_slot: "Min slot",
+                float_fast: "Fast replacement", float_guarantee: "Quality guarantee", float_guarantee_desc: "On all work",
+                services_label: "Our services",
+                services_title: "Full range of services<br>for your car",
+                services_desc: "Modern equipment and experienced mechanics. Every customer is our priority.",
+                service1_title: "Seasonal tire change", service1_desc: "Fast and careful summer and winter tire replacement. Maintaining balance and pressure.",
+                service2_title: "Wheel balancing", service2_desc: "Precise balancing on modern equipment. Eliminating vibrations while driving.",
+                service3_title: "Tire repair", service3_desc: "Patches, cords, mushrooms — puncture repairs of any complexity with warranty.",
+                service4_title: "Wheel alignment", service4_desc: "Wheel angle adjustment. Fuel savings and extended tire life.",
+                service5_title: "Tire storage", service5_desc: "Seasonal tire set storage in dry premises with labeling.",
+                service6_title: "Maintenance & diagnostics", service6_desc: "Oil, filter, brake pad replacement. Computer diagnostics.",
+                service_per_set: "/ set", service_per_wheel: "/ wheel", service_per_puncture: "/ puncture",
+                service_per_axle: "/ axle", service_per_season: "/ season", service_per_service: "/ service",
+                btn_details: "Details", btn_book_service: "Book now",
+                pricing_label: "Tire service prices", pricing_title: "Full replacement of 4 wheels",
+                pricing_desc: "Transparent prices with no hidden fees. Includes: removal/installation, mounting/dismounting, balancing.",
+                pricing_table_title: "Tire service — full 4 wheel replacement", pricing_from: "from 40 €",
+                th_radius: "Radius", th_price: "Price",
+                pricing_note1: "Crossover, van (mahtuniversal): +5 €",
+                pricing_note2: "Toyota Land Cruiser and similar: +10 €",
+                btn_book_now: "Book now",
+                booking_label: "Booking",
+                booking_title: "Book your tire service",
+                booking_desc: "Select date and time. Each slot is 45 minutes. Open 9:00 to 19:00.",
+                booking_form_title: "Online booking",
+                booking_form_desc: "Fill out the form — we will confirm by SMS",
+                label_date: "Select date", label_time: "Select time",
+                label_car_brand: "Car brand", label_car_model: "Model",
+                label_plate: "License plate", label_phone: "Phone",
+                label_service: "Service", label_comment: "Comment",
+                opt_select: "Select service", opt_tire: "Tire change (full set)",
+                opt_balance: "Balancing", opt_repair: "Tire repair",
+                opt_alignment: "Wheel alignment", opt_storage: "Tire storage",
+                opt_maintenance: "Maintenance & diagnostics",
+                btn_submit_booking: "Confirm booking",
+                contact_label: "Contact", contact_title: "Get in touch",
+                contact_desc: "We are always happy to help. Call, write or visit — we will find a convenient time.",
+                label_address: "Address", label_phone_short: "Phone",
+                label_hours: "Working hours", hours_value: "Daily 9:00 — 19:00",
+                contact_form_title: "Quick contact", contact_form_desc: "Leave a message — we reply within an hour",
+                label_name: "Your name", label_message: "Message", btn_send: "Send",
+                footer_desc: "Professional tire service and auto repair in Tallinn. Quality, fast, reliable.",
+                footer_services: "Services", footer_tire: "Tire service", footer_balance: "Balancing",
+                footer_alignment: "Wheel alignment", footer_repair: "Tire repair", footer_storage: "Tire storage",
+                footer_company: "Company", footer_about: "About us", footer_prices: "Pricing",
+                footer_booking: "Booking", footer_contacts: "Contacts",
+                footer_help: "Help", footer_faq: "FAQ", footer_guarantee: "Warranty",
+                footer_privacy: "Privacy policy",
+                footer_rights: "All rights reserved.", footer_tagline: "Tallinn, Estonia",
+                modal_title: "Booking confirmed!",
+                modal_desc: "We received your request. Confirmation will arrive by SMS shortly.",
+                modal_close: "Great"
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function switchLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        // ===================== TIME SLOTS =====================
+        function generateTimeSlots() {
+            const container = document.getElementById('timeSlots');
+            container.innerHTML = '';
+            const slots = [];
+            for (let h = 9; h < 19; h++) {
+                slots.push(`${String(h).padStart(2,'0')}:00`);
+                slots.push(`${String(h).padStart(2,'0')}:45`);
+            }
+            // Demo: mark some slots as booked
+            const bookedSlots = ['09:00', '10:30', '12:15', '14:00', '16:30'];
+            slots.forEach(time => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'time-slot' + (bookedSlots.includes(time) ? ' booked' : '');
+                btn.textContent = time;
+                if (!bookedSlots.includes(time)) {
+                    btn.onclick = () => selectTimeSlot(btn, time);
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        function selectTimeSlot(btn, time) {
+            document.querySelectorAll('.time-slot').forEach(s => {
+                if (!s.classList.contains('booked')) s.classList.remove('selected');
+            });
+            btn.classList.add('selected');
+            document.getElementById('selectedTime').value = time;
+        }
+
+        // ===================== DATE PICKER =====================
+        const dateInput = document.getElementById('bookingDate');
+        const today = new Date();
+        dateInput.min = today.toISOString().split('T')[0];
+        dateInput.value = today.toISOString().split('T')[0];
+
+        // ===================== FORMS =====================
+        function handleBooking(e) {
+            e.preventDefault();
+            const time = document.getElementById('selectedTime').value;
+            if (!time) {
+                alert(currentLang === 'ru' ? 'Пожалуйста, выберите время' : 
+                      currentLang === 'et' ? 'Palun valige aeg' : 'Please select a time');
+                return;
+            }
+            const btn = e.target.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('successModal').classList.add('active');
+                btn.innerHTML = original;
+                btn.disabled = false;
+                e.target.reset();
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                document.getElementById('selectedTime').value = '';
+            }, 1500);
+        }
+
+        function handleContact(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> ' + (currentLang === 'ru' ? 'Отправлено!' : currentLang === 'et' ? 'Saadetud!' : 'Sent!');
+                btn.style.background = 'var(--green)';
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // ===================== NAVBAR SCROLL =====================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===================== SCROLL TO TOP =====================
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+        });
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===================== INTERSECTION OBSERVER =====================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // ===================== SMOOTH SCROLL =====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        function toggleMobileMenu() {
+            alert(currentLang === 'ru' ? 'Мобильное меню' : currentLang === 'et' ? 'Mobiilne menüü' : 'Mobile menu');
+        }
+
+        // ===================== INIT =====================
+        generateTimeSlots();
+    </script>
+</body<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
