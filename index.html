@@ -1,1587 +1,642 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYCARPRO — Rehvivahetus Tallinnas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --black: #0a0a0a;
-            --dark: #111111;
-            --dark-gray: #1a1a1a;
-            --gray: #2a2a2a;
-            --light-gray: #888888;
-            --yellow: #FFD700;
-            --yellow-dark: #E6C200;
-            --yellow-glow: rgba(255, 215, 0, 0.3);
-            --white: #ffffff;
-            --green: #22c55e;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--black);
-            color: var(--white);
-            overflow-x: hidden;
-        }
-        .lang-switcher {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-            display: flex;
-            gap: 6px;
-            background: rgba(10,10,10,0.9);
-            backdrop-filter: blur(10px);
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid var(--gray);
-        }
-        .lang-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--light-gray);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .lang-btn:hover { color: var(--white); }
-        .lang-btn.active {
-            background: var(--yellow);
-            color: var(--black);
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes tireRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 var(--yellow-glow); }
-            50% { box-shadow: 0 0 30px 10px var(--yellow-glow); }
-        }
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 15px 0;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-        .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-            padding: 10px 0;
-        }
-        .nav-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 50px; height: 50px;
-            background: var(--yellow);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            width: 30px; height: 30px;
-            border: 4px solid var(--black);
-            border-radius: 50%;
-            animation: tireRotate 8s linear infinite;
-        }
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            width: 12px; height: 12px;
-            background: var(--black);
-            border-radius: 50%;
-        }
-        .logo-text {
-            color: var(--white);
-            font-weight: 900;
-            font-size: 1.6rem;
-            letter-spacing: 2px;
-        }
-        .logo-text span { color: var(--yellow); }
-        .nav-links {
-            display: flex;
-            gap: 35px;
-            list-style: none;
-        }
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; left: 0;
-            width: 0; height: 2px;
-            background: var(--yellow);
-            transition: width 0.3s;
-        }
-        .nav-links a:hover { color: var(--yellow); }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-phone {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--yellow);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: transform 0.3s;
-        }
-        .nav-phone:hover { transform: scale(1.05); }
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--yellow);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark) 50%, #0d0d0d 100%);
-        }
-        .hero-bg-pattern {
-            position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(255,215,0,0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255,215,0,0.02) 0%, transparent 50%);
-        }
-        .hero-tire-bg {
-            position: absolute;
-            right: -100px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 600px; height: 600px;
-            opacity: 0.06;
-            border: 40px solid var(--yellow);
-            border-radius: 50%;
-            animation: tireRotate 60s linear infinite;
-        }
-        .hero-tire-bg::before {
-            content: '';
-            position: absolute;
-            inset: 60px;
-            border: 20px solid var(--yellow);
-            border-radius: 50%;
-        }
-        .hero-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 120px 30px 80px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,215,0,0.1);
-            border: 1px solid rgba(255,215,0,0.3);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--yellow);
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease forwards;
-        }
-        .hero-title {
-            font-size: 3.2rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-            opacity: 0;
-        }
-        .hero-title .highlight {
-            color: var(--yellow);
-            position: relative;
-            display: inline-block;
-        }
-        .hero-title .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 5px; left: 0;
-            width: 100%; height: 8px;
-            background: rgba(255,215,0,0.3);
-            z-index: -1;
-        }
-        .hero-desc {
-            font-size: 1.1rem;
-            color: var(--light-gray);
-            line-height: 1.7;
-            margin-bottom: 35px;
-            max-width: 500px;
-            animation: fadeInUp 0.8s ease 0.4s forwards;
-            opacity: 0;
-        }
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.6s forwards;
-            opacity: 0;
-        }
-        .btn {
-            padding: 16px 40px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .btn-primary {
-            background: var(--yellow);
-            color: var(--black);
-            box-shadow: 0 10px 40px rgba(255,215,0,0.3);
-            animation: pulse 2s infinite;
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(255,215,0,0.4);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--gray);
-        }
-        .btn-outline:hover {
-            border-color: var(--yellow);
-            color: var(--yellow);
-            transform: translateY(-3px);
-        }
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-            margin-top: 50px;
-            animation: fadeInUp 0.8s ease 0.8s forwards;
-            opacity: 0;
-        }
-        .stat-item { text-align: center; }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--yellow);
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--light-gray);
-            margin-top: 5px;
-        }
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeInRight 1s ease 0.5s forwards;
-            opacity: 0;
-        }
-        .hero-tire-visual {
-            width: 380px; height: 380px;
-            position: relative;
-        }
-        .tire-outer {
-            position: absolute;
-            inset: 0;
-            border: 25px solid var(--yellow);
-            border-radius: 50%;
-            box-shadow: 0 0 60px rgba(255,215,0,0.2), inset 0 0 60px rgba(255,215,0,0.1);
-        }
-        .tire-inner {
-            position: absolute;
-            inset: 55px;
-            border: 15px solid var(--dark-gray);
-            border-radius: 50%;
-        }
-        .tire-hub {
-            position: absolute;
-            inset: 90px;
-            background: var(--yellow);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px rgba(255,215,0,0.4);
-        }
-        .tire-hub i { font-size: 2.5rem; color: var(--black); }
-        .floating-card {
-            position: absolute;
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 16px;
-            padding: 18px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            animation: float 4s ease-in-out infinite;
-        }
-        .floating-card.card-1 { top: -20px; right: -20px; animation-delay: 0s; }
-        .floating-card.card-2 { bottom: 20px; left: -30px; animation-delay: 2s; }
-        .floating-card i {
-            font-size: 1.3rem;
-            color: var(--yellow);
-            margin-bottom: 6px;
-        }
-        .floating-card h4 { font-size: 0.85rem; margin-bottom: 3px; }
-        .floating-card p { font-size: 0.7rem; color: var(--light-gray); }
-        .services {
-            padding: 100px 0;
-            background: var(--dark);
-            position: relative;
-        }
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
-            padding: 0 30px;
-        }
-        .section-label {
-            display: inline-block;
-            color: var(--yellow);
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-        }
-        .section-title {
-            font-size: 2.6rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-        .section-desc {
-            color: var(--light-gray);
-            font-size: 1.05rem;
-            line-height: 1.7;
-        }
-        .services-grid {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-        .service-card {
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 20px;
-            padding: 40px 30px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 4px;
-            background: var(--yellow);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .service-card:hover::before { transform: scaleX(1); }
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255,215,0,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        }
-        .service-icon {
-            width: 70px; height: 70px;
-            background: rgba(255,215,0,0.1);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            transition: all 0.4s;
-        }
-        .service-card:hover .service-icon { background: var(--yellow); }
-        .service-icon i {
-            font-size: 1.8rem;
-            color: var(--yellow);
-            transition: color 0.4s;
-        }
-        .service-card:hover .service-icon i { color: var(--black); }
-        .service-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .service-card p {
-            color: var(--light-gray);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .service-price {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--yellow);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        .service-price span {
-            font-size: 0.85rem;
-            color: var(--light-gray);
-            font-weight: 400;
-        }
-        .service-btn {
-            margin-top: 20px;
-            width: 100%;
-            justify-content: center;
-        }
-        .tire-pricing {
-            padding: 100px 0;
-            background: var(--black);
-            position: relative;
-        }
-        .tire-pricing-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-        .pricing-table-wrapper {
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 24px;
-            overflow: hidden;
-        }
-        .pricing-table-header {
-            background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
-            padding: 25px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .pricing-table-header h3 {
-            color: var(--black);
-            font-size: 1.4rem;
-            font-weight: 800;
-        }
-        .pricing-table-header .price-tag {
-            background: var(--black);
-            color: var(--yellow);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        .pricing-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .pricing-table th,
-        .pricing-table td {
-            padding: 18px 30px;
-            text-align: left;
-            border-bottom: 1px solid var(--gray);
-        }
-        .pricing-table th {
-            color: var(--light-gray);
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .pricing-table td {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        .pricing-table td.price-cell {
-            color: var(--yellow);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        .pricing-table tr:hover td {
-            background: rgba(255,215,0,0.03);
-        }
-        .pricing-note {
-            padding: 20px 30px;
-            background: rgba(255,215,0,0.05);
-            border-top: 1px solid var(--gray);
-        }
-        .pricing-note p {
-            color: var(--light-gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        .pricing-note p i {
-            color: var(--yellow);
-            margin-right: 8px;
-        }
-        .pricing-cta {
-            padding: 30px;
-            text-align: center;
-        }
-        .booking-section {
-            padding: 100px 0;
-            background: var(--dark);
-        }
-        .booking-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-        .booking-form-wrapper {
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 24px;
-            padding: 40px;
-        }
-        .booking-form-wrapper h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .booking-form-wrapper > p {
-            color: var(--light-gray);
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-        }
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        .time-slot {
-            padding: 12px 8px;
-            background: var(--black);
-            border: 2px solid var(--gray);
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--white);
-        }
-        .time-slot:hover {
-            border-color: var(--yellow);
-            color: var(--yellow);
-        }
-        .time-slot.selected {
-            background: var(--yellow);
-            border-color: var(--yellow);
-            color: var(--black);
-        }
-        .time-slot.booked {
-            opacity: 0.3;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-        .date-picker {
-            margin-bottom: 25px;
-        }
-        .date-picker label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--light-gray);
-        }
-        .date-picker input[type="date"] {
-            width: 100%;
-            padding: 14px 18px;
-            background: var(--black);
-            border: 1px solid var(--gray);
-            border-radius: 12px;
-            color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-        }
-        .date-picker input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-        }
-        .contact-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .contact-section::before {
-            content: '';
-            position: absolute;
-            top: -50%; right: -20%;
-            width: 600px; height: 600px;
-            border: 30px solid rgba(255,215,0,0.05);
-            border-radius: 50%;
-        }
-        .contact-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
-            position: relative;
-            z-index: 2;
-        }
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 35px;
-        }
-        .contact-item {
-            display: flex;
-            gap: 20px;
-        }
-        .contact-icon {
-            width: 60px; height: 60px;
-            background: rgba(255,215,0,0.1);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .contact-icon i {
-            font-size: 1.5rem;
-            color: var(--yellow);
-        }
-        .contact-text h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        .contact-text p {
-            color: var(--light-gray);
-            font-size: 0.95rem;
-        }
-        .contact-form-wrapper {
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 24px;
-            padding: 40px;
-        }
-        .contact-form-wrapper h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .contact-form-wrapper > p {
-            color: var(--light-gray);
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--light-gray);
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 18px;
-            background: var(--black);
-            border: 1px solid var(--gray);
-            border-radius: 12px;
-            color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--yellow);
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        .footer {
-            background: var(--black);
-            border-top: 1px solid var(--gray);
-            padding: 60px 0 20px;
-        }
-        .footer-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-col h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--white);
-        }
-        .footer-col ul {
-            list-style: none;
-        }
-        .footer-col ul li {
-            margin-bottom: 12px;
-        }
-        .footer-col ul li a {
-            color: var(--light-gray);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .footer-col ul li a:hover {
-            color: var(--yellow);
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--gray);
-        }
-        .footer-bottom p {
-            color: var(--light-gray);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        .success-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        .success-modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: var(--dark-gray);
-            border: 1px solid var(--gray);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeInUp 0.4s ease;
-        }
-        .modal-content h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--yellow);
-        }
-        .modal-content p {
-            color: var(--light-gray);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        .modal-content button {
-            padding: 12px 30px;
-            background: var(--yellow);
-            color: var(--black);
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .modal-content button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-        }
-        .scroll-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px; height: 50px;
-            background: var(--yellow);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1500;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-        }
-        .scroll-to-top.visible {
-            display: flex;
-        }
-        .scroll-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255,215,0,0.4);
-        }
-        .scroll-to-top i {
-            color: var(--black);
-            font-size: 1.5rem;
-        }
-        @media (max-width: 1024px) {
-            .hero-container { grid-template-columns: 1fr; gap: 40px; }
-            .hero-tire-bg { opacity: 0.02; }
-            .contact-container { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero-title { font-size: 2rem; }
-            .section-title { font-size: 1.8rem; }
-            .services-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyCar Pro | Автосервис и Шиномонтаж</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("YOUR_PUBLIC_KEY");
+})();
+</script>
+
 </head>
+
 <body>
-    <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ru">РУ</button>
-        <button class="lang-btn" data-lang="et">ET</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
 
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <div class="logo-icon"></div>
-                <span class="logo-text">MY<span>CAR</span>PRO</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#services" data-i18n="nav_services">Услуги</a></li>
-                <li><a href="#pricing" data-i18n="nav_pricing">Цены</a></li>
-                <li><a href="#booking" data-i18n="nav_booking">Бронирование</a></li>
-                <li><a href="#contact" data-i18n="nav_contact">Контакты</a></li>
-            </ul>
-            <a href="tel:+37256612345" class="nav-phone">
-                <i class="fas fa-phone"></i>
-                +372 566 12345
-            </a>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
+<header class="header">
 
-    <section class="hero" id="hero">
-        <div class="hero-bg-pattern"></div>
-        <div class="hero-tire-bg"></div>
-        <div class="hero-container">
-            <div>
-                <div class="hero-badge" data-i18n="hero_badge">Работаем ежедневно 9:00 — 19:00</div>
-                <h1 class="hero-title">
-                    <span data-i18n="hero_title1">Профессиональный</span><br>
-                    <span class="highlight" data-i18n="hero_title2">шиномонтаж</span><br>
-                    <span data-i18n="hero_title3">в Таллинне</span>
-                </h1>
-                <p class="hero-desc" data-i18n="hero_desc">Быстрая и качественная замена шин любого радиуса. Современное оборудование, опытные мастера, онлайн бронирование.</p>
-                <div class="hero-buttons">
-                    <a href="#booking" class="btn btn-primary" data-i18n="btn_book">Записаться онлайн</a>
-                    <a href="tel:+37256612345" class="btn btn-outline" data-i18n="btn_call">Позвонить</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">12<span style="font-size: 1.2rem;">+</span></div>
-                        <div class="stat-label" data-i18n="stat_years">Лет опыта</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">45<span style="font-size: 1.2rem;">м</span></div>
-                        <div class="stat-label" data-i18n="stat_min">Минут замена</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label" data-i18n="stat_slot">Минут слот</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-tire-visual">
-                    <div class="tire-outer"></div>
-                    <div class="tire-inner"></div>
-                    <div class="tire-hub"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="floating-card card-1">
-                    <i class="fas fa-bolt"></i>
-                    <h4 data-i18n="float_fast">Быстрая замена</h4>
-                </div>
-                <div class="floating-card card-2">
-                    <i class="fas fa-shield"></i>
-                    <h4 data-i18n="float_guarantee">Гарантия качества</h4>
-                    <p data-i18n="float_guarantee_desc">На все работы</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="logo-box">
+<img src="logo.png" class="logo">
+</div>
 
-    <section class="services" id="services">
-        <div class="section-header">
-            <div class="section-label" data-i18n="services_label">Наши услуги</div>
-            <h2 class="section-title" data-i18n="services_title">Полный спектр услуг<br>для вашего автомобиля</h2>
-            <p class="section-desc" data-i18n="services_desc">Современное оборудование и опытные мастера. Каждый клиент — наш приоритет.</p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-sync-alt"></i></div>
-                <h3 data-i18n="service1_title">Сезонная замена шин</h3>
-                <p data-i18n="service1_desc">Быстрая и аккуратная замена летней и зимней резины. Сохранение баланса и давления.</p>
-                <div class="service-price">
-                    <span>от 40 €</span>
-                    <span data-i18n="service_per_set">/ комплект</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_details">Подробнее</button>
-            </div>
+<div class="lang">
+<button onclick="setLang('ru')">RU</button>
+<button onclick="setLang('et')">ET</button>
+</div>
 
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-cog"></i></div>
-                <h3 data-i18n="service2_title">Балансировка колёс</h3>
-                <p data-i18n="service2_desc">Точная балансировка на современном стенде. Устранение вибрации при движении.</p>
-                <div class="service-price">
-                    <span>от 15 €</span>
-                    <span data-i18n="service_per_wheel">/ колесо</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_book_service">Записаться</button>
-            </div>
+</header>
 
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-tools"></i></div>
-                <h3 data-i18n="service3_title">Ремонт шин</h3>
-                <p data-i18n="service3_desc">Заплатки, жгуты, грибки — ремонт проколов любой сложности с гарантией.</p>
-                <div class="service-price">
-                    <span>от 8 €</span>
-                    <span data-i18n="service_per_puncture">/ прокол</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_book_service">Записаться</button>
-            </div>
+<section class="hero">
 
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-ruler"></i></div>
-                <h3 data-i18n="service4_title">Развал-схождение</h3>
-                <p data-i18n="service4_desc">Настройка углов установки колёс. Экономия топлива и продление срока жизни шин.</p>
-                <div class="service-price">
-                    <span>от 60 €</span>
-                    <span data-i18n="service_per_axle">/ ось</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_book_service">Записаться</button>
-            </div>
+<h1 id="title">
+Автосервис и шиномонтаж в Таллине
+</h1>
 
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-cube"></i></div>
-                <h3 data-i18n="service5_title">Хранение шин</h3>
-                <p data-i18n="service5_desc">Сезонное хранение комплектов шин в сухом помещении с маркировкой.</p>
-                <div class="service-price">
-                    <span>от 25 €</span>
-                    <span data-i18n="service_per_season">/ сезон</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_book_service">Записаться</button>
-            </div>
+<p id="subtitle">
+Профессиональный ремонт автомобилей и шиномонтаж
+</p>
 
-            <div class="service-card animate-on-scroll">
-                <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
-                <h3 data-i18n="service6_title">ТО и диагностика</h3>
-                <p data-i18n="service6_desc">Замена масла, фильтров, тормозных колодок. Компьютерная диагностика.</p>
-                <div class="service-price">
-                    <span>от 45 €</span>
-                    <span data-i18n="service_per_service">/ услуга</span>
-                </div>
-                <button class="btn btn-primary service-btn" data-i18n="btn_book_service">Записаться</button>
-            </div>
-        </div>
-    </section>
+<div class="hero-buttons">
 
-    <section class="tire-pricing" id="pricing">
-        <div class="tire-pricing-container">
-            <div class="section-header">
-                <div class="section-label" data-i18n="pricing_label">Цены на шиномонтаж</div>
-                <h2 class="section-title" data-i18n="pricing_title">Полная замена 4 колёс</h2>
-                <p class="section-desc" data-i18n="pricing_desc">Прозрачные цены без скрытых платежей. В стоимость входит: снятие/установка, монтаж/демонтаж, балансировка.</p>
-            </div>
-            <div class="pricing-table-wrapper">
-                <div class="pricing-table-header">
-                    <h3 data-i18n="pricing_table_title">Шиномонтаж — полная замена 4 колёс</h3>
-                    <div class="price-tag" data-i18n="pricing_from">от 40 €</div>
-                </div>
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th data-i18n="th_radius">Радиус</th>
-                            <th data-i18n="th_price">Цена</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>13"</td><td class="price-cell">40 €</td></tr>
-                        <tr><td>14"</td><td class="price-cell">45 €</td></tr>
-                        <tr><td>15"</td><td class="price-cell">50 €</td></tr>
-                        <tr><td>16"</td><td class="price-cell">55 €</td></tr>
-                        <tr><td>17"</td><td class="price-cell">60 €</td></tr>
-                        <tr><td>18"</td><td class="price-cell">65 €</td></tr>
-                        <tr><td>19"</td><td class="price-cell">70 €</td></tr>
-                        <tr><td>20"</td><td class="price-cell">75 €</td></tr>
-                    </tbody>
-                </table>
-                <div class="pricing-note">
-                    <p><i class="fas fa-info-circle"></i> <span data-i18n="pricing_note1">Кроссовер, микроавтобус (mahtuniversal): +5 €</span></p>
-                    <p><i class="fas fa-info-circle"></i> <span data-i18n="pricing_note2">Toyota Land Cruiser и аналоги: +10 €</span></p>
-                </div>
-                <div class="pricing-cta">
-                    <button class="btn btn-primary" data-i18n="btn_book_now">Забронировать сейчас</button>
-                </div>
-            </div>
-        </div>
-    </section>
+<a href="#booking" class="btn">
+Онлайн запись
+</a>
 
-    <section class="booking-section" id="booking">
-        <div class="booking-container">
-            <div class="section-header">
-                <div class="section-label" data-i18n="booking_label">Бронирование</div>
-                <h2 class="section-title" data-i18n="booking_title">Запишитесь на шиномонтаж</h2>
-                <p class="section-desc" data-i18n="booking_desc">Выберите дату и время. Каждый слот — 45 минут. Работаем с 9:00 до 19:00.</p>
-            </div>
-            <div class="booking-form-wrapper">
-                <h3 data-i18n="booking_form_title">Онлайн-бронирование</h3>
-                <p data-i18n="booking_form_desc">Заполните форму — мы подтвердим запись по SMS</p>
-                <form onsubmit="handleBooking(event)">
-                    <div class="date-picker">
-                        <label data-i18n="label_date">Выберите дату</label>
-                        <input type="date" id="bookingDate" required>
-                    </div>
-                    <div>
-                        <label data-i18n="label_time">Выберите время</label>
-                        <div class="time-slots" id="timeSlots"></div>
-                        <input type="hidden" id="selectedTime">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_car_brand">Марка авто</label>
-                        <input type="text" required placeholder="Например: BMW">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_car_model">Модель</label>
-                        <input type="text" required placeholder="Например: X5">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_plate">Номер машины</label>
-                        <input type="text" required placeholder="ABC 123">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_phone">Телефон</label>
-                        <input type="tel" required placeholder="+372 566 12345">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_service">Услуга</label>
-                        <select style="width:100%; padding:14px 18px; background:var(--black); border:1px solid var(--gray); border-radius:12px; color:var(--white); font-family:'Montserrat',sans-serif; cursor:pointer;">
-                            <option data-i18n="opt_select">Выберите услугу</option>
-                            <option data-i18n="opt_tire">Замена шин (полный комплект)</option>
-                            <option data-i18n="opt_balance">Балансировка</option>
-                            <option data-i18n="opt_repair">Ремонт шин</option>
-                            <option data-i18n="opt_alignment">Развал-схождение</option>
-                            <option data-i18n="opt_storage">Хранение шин</option>
-                            <option data-i18n="opt_maintenance">ТО и диагностика</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_comment">Комментарий</label>
-                        <textarea placeholder="Ваши вопросы или пожелания"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;" data-i18n="btn_submit_booking">Подтвердить бронирование</button>
-                </form>
-            </div>
-        </div>
-    </section>
+<a href="tel:+37257476733" class="btn">
+Позвонить
+</a>
 
-    <section class="contact-section" id="contact">
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="section-label" data-i18n="contact_label">Контакты</div>
-                <h2 class="section-title" data-i18n="contact_title">Свяжитесь с нами</h2>
-                <p class="section-desc" data-i18n="contact_desc">Мы всегда рады помочь. Звоните, пишите или приезжайте — подберём удобное время.</p>
+<a
+target="_blank"
+href="https://maps.google.com/?q=Majaka põik 15 Tallinn"
+class="btn"
+>
+Построить маршрут
+</a>
 
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4 data-i18n="label_address">Адрес</h4>
-                        <p>Telliskivi 60, Tallinn 10412, Estonia</p>
-                    </div>
-                </div>
+</div>
 
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4 data-i18n="label_phone_short">Телефон</h4>
-                        <p><a href="tel:+37256612345" style="color: var(--yellow); text-decoration: none;">+372 566 12345</a></p>
-                    </div>
-                </div>
+</section>
 
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4 data-i18n="label_hours">Режим работы</h4>
-                        <p data-i18n="hours_value">Ежедневно 9:00 — 19:00</p>
-                    </div>
-                </div>
-            </div>
+<section class="services">
 
-            <div class="contact-form-wrapper">
-                <h3 data-i18n="contact_form_title">Быстрая связь</h3>
-                <p data-i18n="contact_form_desc">Оставьте сообщение — ответим в течение часа</p>
-                <form onsubmit="handleContact(event)">
-                    <div class="form-group">
-                        <label data-i18n="label_name">Ваше имя</label>
-                        <input type="text" required placeholder="Иван Петров">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_phone">Телефон</label>
-                        <input type="tel" required placeholder="+372 566 12345">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="label_message">Сообщение</label>
-                        <textarea required placeholder="Ваше сообщение..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;" data-i18n="btn_send">Отправить</button>
-                </form>
-            </div>
-        </div>
-    </section>
+<h2>Услуги</h2>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4 data-i18n="footer_services">Услуги</h4>
-                <ul>
-                    <li><a href="#services" data-i18n="footer_tire">Шиномонтаж</a></li>
-                    <li><a href="#services" data-i18n="footer_balance">Балансировка</a></li>
-                    <li><a href="#services" data-i18n="footer_alignment">Развал-схождение</a></li>
-                    <li><a href="#services" data-i18n="footer_repair">Ремонт шин</a></li>
-                    <li><a href="#services" data-i18n="footer_storage">Хранение шин</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_company">Компания</h4>
-                <ul>
-                    <li><a href="#" data-i18n="footer_about">О нас</a></li>
-                    <li><a href="#pricing" data-i18n="footer_prices">Цены</a></li>
-                    <li><a href="#booking" data-i18n="footer_booking">Бронирование</a></li>
-                    <li><a href="#contact" data-i18n="footer_contacts">Контакты</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_help">Помощь</h4>
-                <ul>
-                    <li><a href="#" data-i18n="footer_faq">FAQ</a></li>
-                    <li><a href="#" data-i18n="footer_guarantee">Гарантия</a></li>
-                    <li><a href="#" data-i18n="footer_privacy">Политика конфиденциальности</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p><span data-i18n="footer_desc">Профессиональный шиномонтаж и автосервис в Таллинне. Качественно, быстро, надёжно.</span></p>
-            <p><span data-i18n="footer_rights">Все права защищены.</span> © 2025 MYCARPRO | <span data-i18n="footer_tagline">Tallinn, Estonia</span></p>
-        </div>
-    </footer>
+<div class="cards">
 
-    <button class="scroll-to-top" id="scrollTop" onclick="scrollToTop()">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+<div class="card">
 
-    <div class="success-modal" id="successModal">
-        <div class="modal-content">
-            <h3 data-i18n="modal_title">Бронирование подтверждено!</h3>
-            <p data-i18n="modal_desc">Мы получили вашу заявку. Подтверждение придёт по SMS в ближайшее время.</p>
-            <button onclick="closeModal()" data-i18n="modal_close">Отлично</button>
-        </div>
-    </div>
+<h3>Шиномонтаж</h3>
 
-    <script>
-        // ===================== TRANSLATIONS =====================
-        const translations = {
-            ru: {
-                nav_services: "Услуги", nav_pricing: "Цены", nav_booking: "Бронирование", nav_contact: "Контакты",
-                hero_badge: "Работаем ежедневно 9:00 — 19:00",
-                hero_title1: "Профессиональный", hero_title2: "шиномонтаж", hero_title3: "в Таллинне",
-                hero_desc: "Быстрая и качественная замена шин любого радиуса. Современное оборудование, опытные мастера, онлайн бронирование.",
-                btn_book: "Записаться онлайн", btn_call: "Позвонить",
-                stat_years: "Лет опыта", stat_min: "Минут замена", stat_slot: "Минут слот",
-                float_fast: "Быстрая замена", float_guarantee: "Гарантия качества", float_guarantee_desc: "На все работы",
-                services_label: "Наши услуги",
-                services_title: "Полный спектр услуг<br>для вашего автомобиля",
-                services_desc: "Современное оборудование и опытные мастера. Каждый клиент — наш приоритет.",
-                service1_title: "Сезонная замена шин", service1_desc: "Быстрая и аккуратная замена летней и зимней резины. Сохранение баланса и давления.",
-                service2_title: "Балансировка колёс", service2_desc: "Точная балансировка на современном стенде. Устранение вибрации при движении.",
-                service3_title: "Ремонт шин", service3_desc: "Заплатки, жгуты, грибки — ремонт проколов любой сложности с гарантией.",
-                service4_title: "Развал-схождение", service4_desc: "Настройка углов установки колёс. Экономия топлива и продление срока жизни шин.",
-                service5_title: "Хранение шин", service5_desc: "Сезонное хранение комплектов шин в сухом помещении с маркировкой.",
-                service6_title: "ТО и диагностика", service6_desc: "Замена масла, фильтров, тормозных колодок. Компьютерная диагностика.",
-                service_per_set: "/ комплект", service_per_wheel: "/ колесо", service_per_puncture: "/ прокол",
-                service_per_axle: "/ ось", service_per_season: "/ сезон", service_per_service: "/ услуга",
-                btn_details: "Подробнее", btn_book_service: "Записаться",
-                pricing_label: "Цены на шиномонтаж", pricing_title: "Полная замена 4 колёс",
-                pricing_desc: "Прозрачные цены без скрытых платежей. В стоимость входит: снятие/установка, монтаж/демонтаж, балансировка.",
-                pricing_table_title: "Шиномонтаж — полная замена 4 колёс", pricing_from: "от 40 €",
-                th_radius: "Радиус", th_price: "Цена",
-                pricing_note1: "Кроссовер, микроавтобус (mahtuniversal): +5 €",
-                pricing_note2: "Toyota Land Cruiser и аналоги: +10 €",
-                btn_book_now: "Забронировать сейчас",
-                booking_label: "Бронирование",
-                booking_title: "Запишитесь на шиномонтаж",
-                booking_desc: "Выберите дату и время. Каждый слот — 45 минут. Работаем с 9:00 до 19:00.",
-                booking_form_title: "Онлайн-бронирование",
-                booking_form_desc: "Заполните форму — мы подтвердим запись по SMS",
-                label_date: "Выберите дату", label_time: "Выберите время",
-                label_car_brand: "Марка авто", label_car_model: "Модель",
-                label_plate: "Номер машины", label_phone: "Телефон",
-                label_service: "Услуга", label_comment: "Комментарий",
-                opt_select: "Выберите услугу", opt_tire: "Замена шин (полный комплект)",
-                opt_balance: "Балансировка", opt_repair: "Ремонт шин",
-                opt_alignment: "Развал-схождение", opt_storage: "Хранение шин",
-                opt_maintenance: "ТО и диагностика",
-                btn_submit_booking: "Подтвердить бронирование",
-                contact_label: "Контакты", contact_title: "Свяжитесь с нами",
-                contact_desc: "Мы всегда рады помочь. Звоните, пишите или приезжайте — подберём удобное время.",
-                label_address: "Адрес", label_phone_short: "Телефон",
-                label_hours: "Режим работы", hours_value: "Ежедневно 9:00 — 19:00",
-                contact_form_title: "Быстрая связь", contact_form_desc: "Оставьте сообщение — ответим в течение часа",
-                label_name: "Ваше имя", label_message: "Сообщение", btn_send: "Отправить",
-                footer_desc: "Профессиональный шиномонтаж и автосервис в Таллинне. Качественно, быстро, надёжно.",
-                footer_services: "Услуги", footer_tire: "Шиномонтаж", footer_balance: "Балансировка",
-                footer_alignment: "Развал-схождение", footer_repair: "Ремонт шин", footer_storage: "Хранение шин",
-                footer_company: "Компания", footer_about: "О нас", footer_prices: "Цены",
-                footer_booking: "Бронирование", footer_contacts: "Контакты",
-                footer_help: "Помощь", footer_faq: "FAQ", footer_guarantee: "Гарантия",
-                footer_privacy: "Политика конфиденциальности",
-                footer_rights: "Все права защищены.", footer_tagline: "Tallinn, Estonia",
-                modal_title: "Бронирование подтверждено!",
-                modal_desc: "Мы получили вашу заявку. Подтверждение придёт по SMS в ближайшее время.",
-                modal_close: "Отлично"
-            },
-            et: {
-                nav_services: "Teenused", nav_pricing: "Hinnad", nav_booking: "Broneerimine", nav_contact: "Kontaktid",
-                hero_badge: "Töötab iga päev 9:00 — 19:00",
-                hero_title1: "Professionaalne", hero_title2: "rehvivahetus", hero_title3: "Tallinnas",
-                hero_desc: "Kiire ja kvaliteetne rehvivahetus igas suuruses. Kaasaegne seadmed, kogenud meistrid, online broneerimine.",
-                btn_book: "Broneeri online", btn_call: "Helista",
-                stat_years: "Aastat kogemust", stat_min: "Min vahetus", stat_slot: "Min aeg",
-                float_fast: "Kiire vahetus", float_guarantee: "Kvaliteedi garantii", float_guarantee_desc: "Kõikidele töödele",
-                services_label: "Meie teenused",
-                services_title: "Täielik teenuste valik<br>teie autole",
-                services_desc: "Kaasaegne seadmed ja kogenud meistrid. Iga klient on meie prioriteet.",
-                service1_title: "Hooajaline rehvivahetus", service1_desc: "Kiire ja hoolikas suve- ja talverehvide vahetus. Tasakaalu ja rõhu säilitamine.",
-                service2_title: "Rataste tasakaalustamine", service2_desc: "Täpne tasakaalustamine kaasaegsel seadmel. Vibreerimise kõrvaldamine sõidu ajal.",
-                service3_title: "Rehvide remont", service3_desc: "Paigad, niidid, seened — mis tahes keerukusega rehvi parandused garantiiga.",
-                service4_title: "Sillastend", service4_desc: "Rataste nurkade seadistamine. Kütusekokkuvõtt ja rehvide eluea pikendamine.",
-                service5_title: "Rehvide hoiustamine", service5_desc: "Hooajaline rehvikomplektide hoiustamine kuivas ruumis märgistusega.",
-                service6_title: "Hooldus ja diagnostika", service6_desc: "Õli, filtrite, piduriklotside vahetus. Arvutidiagnostika.",
-                service_per_set: "/ komplekt", service_per_wheel: "/ ratas", service_per_puncture: "/ auk",
-                service_per_axle: "/ telg", service_per_season: "/ hooaeg", service_per_service: "/ teenus",
-                btn_details: "Lisateave", btn_book_service: "Broneeri",
-                pricing_label: "Rehvivahetuse hinnad", pricing_title: "Täielik 4 ratta vahetus",
-                pricing_desc: "Läbipaistvad hinnad ilma peidetud tasudeta. Hinna sees: eemaldamine/paigaldamine, montaaž/demontaaž, tasakaalustamine.",
-                pricing_table_title: "Rehvivahetus — täielik 4 ratta vahetus", pricing_from: "alates 40 €",
-                th_radius: "Raadius", th_price: "Hind",
-                pricing_note1: "Krossover, mahtuniversal: +5 €",
-                pricing_note2: "Toyota Land Cruiser ja analoogid: +10 €",
-                btn_book_now: "Broneeri kohe",
-                booking_label: "Broneerimine",
-                booking_title: "Registreeru rehvivahetusele",
-                booking_desc: "Valige kuupäev ja aeg. Iga aeg — 45 minutit. Töötab 9:00 kuni 19:00.",
-                booking_form_title: "Online broneerimine",
-                booking_form_desc: "Täitke vorm — kinnitame broneeringu SMS-iga",
-                label_date: "Valige kuupäev", label_time: "Valige aeg",
-                label_car_brand: "Auto mark", label_car_model: "Mudel",
-                label_plate: "Auto number", label_phone: "Telefon",
-                label_service: "Teenus", label_comment: "Kommentaar",
-                opt_select: "Valige teenus", opt_tire: "Rehvivahetus (täielik komplekt)",
-                opt_balance: "Tasakaalustamine", opt_repair: "Rehvide remont",
-                opt_alignment: "Sillastend", opt_storage: "Rehvide hoiustamine",
-                opt_maintenance: "Hooldus ja diagnostika",
-                btn_submit_booking: "Kinnita broneering",
-                contact_label: "Kontaktid", contact_title: "Võtke meiega ühendust",
-                contact_desc: "Oleme alati valmis aitama. Helistage, kirjutage või tulge — leiate sobiva aja.",
-                label_address: "Aadress", label_phone_short: "Telefon",
-                label_hours: "Tööaeg", hours_value: "Iga päev 9:00 — 19:00",
-                contact_form_title: "Kiire ühendus", contact_form_desc: "Jätke sõnum — vastame tunni jooksul",
-                label_name: "Teie nimi", label_message: "Sõnum", btn_send: "Saada",
-                footer_desc: "Professionaalne rehvivahetus ja autoservice Tallinnas. Kvaliteetselt, kiiresti, usaldusväärselt.",
-                footer_services: "Teenused", footer_tire: "Rehvivahetus", footer_balance: "Tasakaalustamine",
-                footer_alignment: "Sillastend", footer_repair: "Rehvide remont", footer_storage: "Rehvide hoiustamine",
-                footer_company: "Ettevõte", footer_about: "Meist", footer_prices: "Hinnad",
-                footer_booking: "Broneerimine", footer_contacts: "Kontaktid",
-                footer_help: "Abi", footer_faq: "KKK", footer_guarantee: "Garantii",
-                footer_privacy: "Privaatsuspoliitika",
-                footer_rights: "Kõik õigused kaitstud.", footer_tagline: "Tallinn, Eesti",
-                modal_title: "Broneering kinnitatud!",
-                modal_desc: "Saime teie taotluse. Kinnitus saabub SMS-iga peagi.",
-                modal_close: "Suurepärane"
-            },
-            en: {
-                nav_services: "Services", nav_pricing: "Pricing", nav_booking: "Booking", nav_contact: "Contact",
-                hero_badge: "Open daily 9:00 — 19:00",
-                hero_title1: "Professional", hero_title2: "tire service", hero_title3: "in Tallinn",
-                hero_desc: "Fast and quality tire replacement of any size. Modern equipment, experienced mechanics, online booking.",
-                btn_book: "Book online", btn_call: "Call us",
-                stat_years: "Years experience", stat_min: "Min replacement", stat_slot: "Min slot",
-                float_fast: "Fast replacement", float_guarantee: "Quality guarantee", float_guarantee_desc: "On all work",
-                services_label: "Our services",
-                services_title: "Full range of services<br>for your car",
-                services_desc: "Modern equipment and experienced mechanics. Every customer is our priority.",
-                service1_title: "Seasonal tire change", service1_desc: "Fast and careful summer and winter tire replacement. Maintaining balance and pressure.",
-                service2_title: "Wheel balancing", service2_desc: "Precise balancing on modern equipment. Eliminating vibrations while driving.",
-                service3_title: "Tire repair", service3_desc: "Patches, cords, mushrooms — puncture repairs of any complexity with warranty.",
-                service4_title: "Wheel alignment", service4_desc: "Wheel angle adjustment. Fuel savings and extended tire life.",
-                service5_title: "Tire storage", service5_desc: "Seasonal tire set storage in dry premises with labeling.",
-                service6_title: "Maintenance & diagnostics", service6_desc: "Oil, filter, brake pad replacement. Computer diagnostics.",
-                service_per_set: "/ set", service_per_wheel: "/ wheel", service_per_puncture: "/ puncture",
-                service_per_axle: "/ axle", service_per_season: "/ season", service_per_service: "/ service",
-                btn_details: "Details", btn_book_service: "Book now",
-                pricing_label: "Tire service prices", pricing_title: "Full replacement of 4 wheels",
-                pricing_desc: "Transparent prices with no hidden fees. Includes: removal/installation, mounting/dismounting, balancing.",
-                pricing_table_title: "Tire service — full 4 wheel replacement", pricing_from: "from 40 €",
-                th_radius: "Radius", th_price: "Price",
-                pricing_note1: "Crossover, van (mahtuniversal): +5 €",
-                pricing_note2: "Toyota Land Cruiser and similar: +10 €",
-                btn_book_now: "Book now",
-                booking_label: "Booking",
-                booking_title: "Book your tire service",
-                booking_desc: "Select date and time. Each slot is 45 minutes. Open 9:00 to 19:00.",
-                booking_form_title: "Online booking",
-                booking_form_desc: "Fill out the form — we will confirm by SMS",
-                label_date: "Select date", label_time: "Select time",
-                label_car_brand: "Car brand", label_car_model: "Model",
-                label_plate: "License plate", label_phone: "Phone",
-                label_service: "Service", label_comment: "Comment",
-                opt_select: "Select service", opt_tire: "Tire change (full set)",
-                opt_balance: "Balancing", opt_repair: "Tire repair",
-                opt_alignment: "Wheel alignment", opt_storage: "Tire storage",
-                opt_maintenance: "Maintenance & diagnostics",
-                btn_submit_booking: "Confirm booking",
-                contact_label: "Contact", contact_title: "Get in touch",
-                contact_desc: "We are always happy to help. Call, write or visit — we will find a convenient time.",
-                label_address: "Address", label_phone_short: "Phone",
-                label_hours: "Working hours", hours_value: "Daily 9:00 — 19:00",
-                contact_form_title: "Quick contact", contact_form_desc: "Leave a message — we reply within an hour",
-                label_name: "Your name", label_message: "Message", btn_send: "Send",
-                footer_desc: "Professional tire service and auto repair in Tallinn. Quality, fast, reliable.",
-                footer_services: "Services", footer_tire: "Tire service", footer_balance: "Balancing",
-                footer_alignment: "Wheel alignment", footer_repair: "Tire repair", footer_storage: "Tire storage",
-                footer_company: "Company", footer_about: "About us", footer_prices: "Pricing",
-                footer_booking: "Booking", footer_contacts: "Contacts",
-                footer_help: "Help", footer_faq: "FAQ", footer_guarantee: "Warranty",
-                footer_privacy: "Privacy policy",
-                footer_rights: "All rights reserved.", footer_tagline: "Tallinn, Estonia",
-                modal_title: "Booking confirmed!",
-                modal_desc: "We received your request. Confirmation will arrive by SMS shortly.",
-                modal_close: "Great"
-            }
-        };
+<ul>
+<li>До R16 — 40€</li>
+<li>Каждый следующий дюйм +5€</li>
+<li>Кроссовер +5€</li>
+<li>Большой внедорожник +10€</li>
+<li>Малый микроавтобус +10€</li>
+<li>Большой микроавтобус +15€</li>
+<li>Хранение шин 25€</li>
+</ul>
 
-        let currentLang = 'ru';
+</div>
 
-        function switchLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                if (translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
-            document.documentElement.lang = lang;
-        }
+<div class="card">
 
-        // ===================== TIME SLOTS =====================
-        function generateTimeSlots() {
-            const container = document.getElementById('timeSlots');
-            container.innerHTML = '';
-            const slots = [];
-            for (let h = 9; h < 19; h++) {
-                slots.push(`${String(h).padStart(2,'0')}:00`);
-                slots.push(`${String(h).padStart(2,'0')}:45`);
-            }
-            // Demo: mark some slots as booked
-            const bookedSlots = ['09:00', '10:30', '12:15', '14:00', '16:30'];
-            slots.forEach(time => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'time-slot' + (bookedSlots.includes(time) ? ' booked' : '');
-                btn.textContent = time;
-                if (!bookedSlots.includes(time)) {
-                    btn.onclick = () => selectTimeSlot(btn, time);
-                }
-                container.appendChild(btn);
-            });
-        }
+<h3>Авторемонт</h3>
 
-        function selectTimeSlot(btn, time) {
-            document.querySelectorAll('.time-slot').forEach(s => {
-                if (!s.classList.contains('booked')) s.classList.remove('selected');
-            });
-            btn.classList.add('selected');
-            document.getElementById('selectedTime').value = time;
-        }
+<ul>
+<li>Замена масла и фильтра 25-30€</li>
+<li>Компьютерная диагностика 20€</li>
+<li>Ремонт ходовой 35€/час</li>
+<li>Заправка кондиционера 35€</li>
+</ul>
 
-        // ===================== DATE PICKER =====================
-        const dateInput = document.getElementById('bookingDate');
-        const today = new Date();
-        dateInput.min = today.toISOString().split('T')[0];
-        dateInput.value = today.toISOString().split('T')[0];
+</div>
 
-        // ===================== FORMS =====================
-        function handleBooking(e) {
-            e.preventDefault();
-            const time = document.getElementById('selectedTime').value;
-            if (!time) {
-                alert(currentLang === 'ru' ? 'Пожалуйста, выберите время' : 
-                      currentLang === 'et' ? 'Palun valige aeg' : 'Please select a time');
-                return;
-            }
-            const btn = e.target.querySelector('button[type="submit"]');
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-            setTimeout(() => {
-                document.getElementById('successModal').classList.add('active');
-                btn.innerHTML = original;
-                btn.disabled = false;
-                e.target.reset();
-                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-                document.getElementById('selectedTime').value = '';
-            }, 1500);
-        }
+</div>
 
-        function handleContact(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i> ' + (currentLang === 'ru' ? 'Отправлено!' : currentLang === 'et' ? 'Saadetud!' : 'Sent!');
-                btn.style.background = 'var(--green)';
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.style.background = '';
-                    btn.disabled = false;
-                    e.target.reset();
-                }, 2000);
-            }, 1500);
-        }
+</section>
 
-        function closeModal() {
-            document.getElementById('successModal').classList.remove('active');
-        }
+<section id="booking" class="booking">
 
-        // ===================== NAVBAR SCROLL =====================
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-        });
+<h2>Онлайн бронирование</h2>
 
-        // ===================== SCROLL TO TOP =====================
-        const scrollTopBtn = document.getElementById('scrollTop');
-        window.addEventListener('scroll', () => {
-            scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
-        });
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+<form id="bookingForm">
 
-        // ===================== INTERSECTION OBSERVER =====================
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+<input
+type="text"
+id="name"
+placeholder="Имя (необязательно)"
+>
 
-        // ===================== SMOOTH SCROLL =====================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+<input
+type="tel"
+id="phone"
+placeholder="Телефон"
+required
+>
 
-        function toggleMobileMenu() {
-            alert(currentLang === 'ru' ? 'Мобильное меню' : currentLang === 'et' ? 'Mobiilne menüü' : 'Mobile menu');
-        }
+<input
+type="email"
+id="email"
+placeholder="E-mail"
+required
+>
 
-        // ===================== INIT =====================
-        generateTimeSlots();
-    </script>
+<input
+type="date"
+id="date"
+required
+>
+
+<select id="time">
+
+<option>09:00</option>
+<option>09:45</option>
+<option>10:30</option>
+<option>11:15</option>
+<option>12:00</option>
+<option>12:45</option>
+<option>13:30</option>
+<option>14:15</option>
+<option>15:00</option>
+<option>15:45</option>
+<option>16:30</option>
+<option>17:15</option>
+<option>18:00</option>
+
+</select>
+
+<select id="rim">
+
+<option value="16">R16</option>
+<option value="17">R17</option>
+<option value="18">R18</option>
+<option value="19">R19</option>
+<option value="20">R20</option>
+<option value="21">R21</option>
+<option value="22">R22</option>
+
+</select>
+
+<select id="vehicle">
+
+<option value="0">Легковой</option>
+<option value="5">Кроссовер</option>
+<option value="10">Большой внедорожник</option>
+<option value="10">Малый микроавтобус</option>
+<option value="15">Большой микроавтобус</option>
+
+</select>
+
+<h3>
+
+Стоимость:
+
+<span id="price">
+40€
+</span>
+
+</h3>
+
+<button type="submit">
+Забронировать
+</button>
+
+</form>
+
+</section>
+
+<section class="contact">
+
+<h2>Контакты</h2>
+
+<p>Majaka põik 15, Tallinn</p>
+
+<p>+372 57476733</p>
+
+<p>mycarproo@gmail.com</p>
+
+</section>
+
+<script src="script.js"></script>
+
 </body>
 </html>
+*{
+<margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif
+
+body>
+    
+<background:#0f0f0>
+<color:white>
+</color:white>
+<line-height:1.6>
+
+<header
+display:flex>
+<justify-content:space-between>
+<align-items:center>
+<padding:20px 50px>
+<background:#000>
+<position:sticky>
+<top:0>
+<z-index:1000>
+
+<logo
+height:80px>
+
+<lang button>
+<background:#222>
+<color:white>
+<border:none>
+<padding:10px 15px>
+<margin-left:5px>
+<cursor:pointer>
+<border-radius:8px>
+<transition:0.3s>
+
+
+<lang button:hover>
+<background:#cc0000>
+
+<hero>
+<min-height:90vh>
+<display:flex>
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:30px;
+
+background:
+linear-gradient(
+rgba(0,0,0,0.7),
+rgba(0,0,0,0.7)
+),
+url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d8?auto=format&fit=crop&w=1600&q=80");
+
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:56px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:22px;
+margin-bottom:30px;
+}
+
+.hero-buttons{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.btn{
+display:inline-block;
+padding:14px 25px;
+background:#cc0000;
+color:white;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+background:#ff0000;
+}
+
+.services{
+padding:70px 20px;
+max-width:1200px;
+margin:auto;
+}
+
+.services h2{
+text-align:center;
+font-size:40px;
+margin-bottom:40px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1b1b1b;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(255,0,0,0.15);
+}
+
+.card h3{
+margin-bottom:20px;
+font-size:28px;
+color:#ff2a2a;
+}
+
+.card ul{
+list-style:none;
+}
+
+.card li{
+padding:8px 0;
+border-bottom:1px solid #333;
+}
+
+.booking{
+padding:70px 20px;
+max-width:800px;
+margin:auto;
+}
+
+.booking h2{
+text-align:center;
+font-size:40px;
+margin-bottom:30px;
+}
+
+form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+input,
+select{
+padding:15px;
+border:none;
+border-radius:10px;
+background:#1b1b1b;
+color:white;
+font-size:16px;
+}
+
+input:focus,
+select:focus{
+outline:2px solid #cc0000;
+}
+
+#price{
+color:#ff2a2a;
+font-size:32px;
+}
+
+button[type="submit"]{
+padding:16px;
+background:#cc0000;
+border:none;
+color:white;
+font-size:18px;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button[type="submit"]:hover{
+background:#ff0000;
+}
+
+.contact{
+padding:70px 20px;
+text-align:center;
+background:#000;
+}
+
+.contact h2{
+font-size:40px;
+margin-bottom:20px;
+}
+
+.contact p{
+font-size:20px;
+margin:10px 0;
+}
+
+iframe{
+width:100%;
+height:400px;
+border:none;
+margin-top:25px;
+border-radius:15px;
+}
+
+footer{
+background:#000;
+padding:20px;
+text-align:center;
+font-size:14px;
+color:#aaa;
+}
+
+@media(max-width:768px){
+
+.header{
+padding:15px;
+flex-direction:column;
+gap:15px;
+}
+
+.logo{
+height:65px;
+}
+
+.hero h1{
+font-size:36px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.services h2,
+.booking h2,
+.contact h2{
+font-size:32px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.btn{
+width:100%;
+max-width:300px;
+}
+
+const rimSelect = document.getElementById("rim");
+const vehicleSelect = document.getElementById("vehicle");
+const priceField = document.getElementById("price");
+
+function calculatePrice() {
+
+let rim = parseInt(rimSelect.value);
+let vehicleExtra = parseInt(vehicleSelect.value);
+
+let price = 40;
+
+if (rim > 16) {
+price += (rim - 16) * 5;
+}
+
+price += vehicleExtra;
+
+priceField.innerText = price + "€";
+}
+
+rimSelect.addEventListener("change", calculatePrice);
+vehicleSelect.addEventListener("change", calculatePrice);
+
+calculatePrice();
+
+
+const translations = {
+
+ru: {
+
+title: "Автосервис и шиномонтаж в Таллине",
+
+subtitle:
+"Профессиональный ремонт автомобилей и шиномонтаж"
+
+},
+
+et: {
+
+title:
+"Autoremondi ja rehvivahetuse teenus Tallinnas",
+
+subtitle:
+"Professionaalne autoremont ja rehvivahetus"
+
+}
+
+};
+
+function setLang(lang) {
+
+document.getElementById("title").innerText =
+translations[lang].title;
+
+document.getElementById("subtitle").innerText =
+translations[lang].subtitle;
+
+}
+
+
+const bookingForm =
+document.getElementById("bookingForm");
+
+bookingForm.addEventListener(
+"submit",
+function(e){
+
+e.preventDefault();
+
+let name =
+document.getElementById("name").value;
+
+let phone =
+document.getElementById("phone").value;
+
+let email =
+document.getElementById("email").value;
+
+let date =
+document.getElementById("date").value;
+
+let time =
+document.getElementById("time").value;
+
+let rim =
+document.getElementById("rim").value;
+
+let vehicle =
+document.getElementById("vehicle");
+
+let vehicleText =
+vehicle.options[
+vehicle.selectedIndex
+].text;
+
+let finalPrice =
+document.getElementById("price")
+.innerText;
+
+
+
+const adminParams = {
+
+client_name: name,
+
+client_phone: phone,
+
+client_email: email,
+
+booking_date: date,
+
+booking_time: time,
+
+wheel_size: rim,
+
+vehicle_type: vehicleText,
+
+price: finalPrice
+
+};
+
+
+
+const clientParams = {
+
+email: email,
+
+name: name,
+
+date: date,
+
+time: time
+
+};
+
+
+
+emailjs.send(
+"YOUR_SERVICE_ID",
+"YOUR_ADMIN_TEMPLATE",
+adminParams
+)
+
+.then(function(){
+
+return emailjs.send(
+"YOUR_SERVICE_ID",
+"YOUR_CLIENT_TEMPLATE",
+clientParams
+);
+
+})
+
+.then(function(){
+
+alert(
+"Бронирование успешно отправлено!"
+);
+
+bookingForm.reset();
+
+calculatePrice();
+
+})
+
+.catch(function(error){
+
+console.error(error);
+
+alert(
+"Ошибка отправки. Попробуйте позже."
+);
+
+});
+
+});
