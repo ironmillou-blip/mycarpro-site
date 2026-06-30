@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link rel="stylesheet" href="style.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="MyCar Pro — автосервис и шиномонтаж в Таллине. Онлайн-запись, цены на шиномонтаж и услуги авторемонта." />
   <title>MyCar Pro | Автосервис и Шиномонтаж</title>
 
-  <!-- Preconnect to CDN used for emailjs -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <!-- Подключаем файл со стилями напрямую, без мудреных прелоадов -->
+  <link rel="stylesheet" href="style.css">
 
-  <!-- Preload critical hero background image (adjust to optimized image in production) -->
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1492144534655-ae79c964c9d8?auto=format&fit=crop&w=1600&q=80">
-
-  <!-- Preload and load stylesheet (onload technique for preload -> stylesheet swap) -->
-  <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="style.css"></noscript>
-
-  <!-- Load EmailJS library deferred so it doesn't block initial parsing.
-       Initialization is moved to script.js which runs after parsing. -->
   <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-  <!-- Main JS (deferred). script.js should call emailjs.init(...) after the library has loaded. -->
   <script defer src="script.js"></script>
 </head>
 <body>
   <header class="header" role="banner">
     <div class="logo-box">
-      <!-- Provide width/height to avoid layout shift; adjust to actual logo dimensions -->
-      <img src="logo.png" alt="MyCar Pro" class="logo" width="240" height="80">
+      <!-- Если логотипа logo.png пока нет, тут будет просто текст, это нормально -->
+      <img src="logo.png" alt="MyCar Pro" class="logo" width="240" height="80" onerror="this.style.display='none'; this.after('MyCar Pro')">
     </div>
 
     <div class="lang" role="navigation" aria-label="Select language">
-      <button type="button" data-lang="ru" class="lang-btn">RU</button>
+      <button type="button" data-lang="ru" class="lang-btn active">RU</button>
       <button type="button" data-lang="et" class="lang-btn">ET</button>
     </div>
   </header>
@@ -44,104 +32,96 @@
         <p id="subtitle">Профессиональный ремонт автомобилей и шиномонтаж</p>
 
         <div class="hero-buttons">
-          <a href="#booking" class="btn">Онлайн запись</a>
+          <a href="#booking" class="btn btn-primary">Онлайн запись</a>
           <a href="tel:+37257476733" class="btn">Позвонить</a>
-          <a target="_blank" rel="noopener" href="https://maps.google.com/?q=Majaka%20põik%2017%20Tallinn" class="btn">Построить маршрут</a>
+          <a target="_blank" rel="noopener" href="https://maps.google.com/?q=Majaka%20põik%2017%20Tallinn" class="btn">Маршрут</a>
         </div>
       </div>
     </section>
 
     <section class="services" aria-labelledby="services-title">
-      <h2 id="services-title">Услуги</h2>
+      <h2 id="services-title">Наши Услуги</h2>
 
       <div class="cards">
         <article class="card" aria-labelledby="tyre-title">
           <h3 id="tyre-title">Шиномонтаж</h3>
           <ul>
-            <li>До R16 — 40€</li>
-            <li>Каждый следующий дюйм +5€</li>
-            <li>Кроссовер +5€</li>
-            <li>Большой внедорожник +10€</li>
-            <li>Малый микроавтобус +10€</li>
-            <li>Большой микроавтобус +15€</li>
-            <li>Хранение шин 25€</li>
+            <li>До R16 — <span>40€</span></li>
+            <li>Каждый следующий дюйм <span>+5€</span></li>
+            <li>Кроссовер <span>+5€</span></li>
+            <li>Большой внедорожник <span>+10€</span></li>
+            <li>Малый микроавтобус <span>+10€</span></li>
+            <li>Большой микроавтобус <span>+15€</span></li>
+            <li>Хранение шин <span>25€</span></li>
           </ul>
         </article>
 
         <article class="card" aria-labelledby="repair-title">
           <h3 id="repair-title">Авторемонт</h3>
           <ul>
-            <li>Замена масла и фильтра 25-30€</li>
-            <li>Компьютерная диагностика 20€</li>
-            <li>Ремонт ходовой 35€/час</li>
-            <li>Заправка кондиционера 35€</li>
+            <li>Замена масла и фильтра <span>25-30€</span></li>
+            <li>Компьютерная диагностика <span>20€</span></li>
+            <li>Ремонт ходовой <span>35€/час</span></li>
+            <li>Заправка кондиционера <span>35€</span></li>
           </ul>
         </article>
       </div>
     </section>
 
     <section id="booking" class="booking" aria-labelledby="booking-title">
-      <h2 id="booking-title">Онлайн бронирование</h2>
+      <div class="booking-container">
+        <h2 id="booking-title">Онлайн бронирование</h2>
+        <form id="bookingForm" name="bookingForm">
+          <input type="text" id="name" name="name" placeholder="Имя (необязательно)" autocomplete="name">
+          <input type="tel" id="phone" name="phone" placeholder="Телефон" required autocomplete="tel">
+          <input type="email" id="email" name="email" placeholder="E-mail" required autocomplete="email">
+          <input type="date" id="date" name="date" required>
 
-      <form id="bookingForm" name="bookingForm">
-        <input type="text" id="name" name="name" placeholder="Имя (необязательно)" autocomplete="name">
+          <select id="time" name="time" aria-label="Время">
+            <option>09:00</option><option>09:45</option><option>10:30</option>
+            <option>11:15</option><option>12:00</option><option>12:45</option>
+            <option>13:30</option><option>14:15</option><option>15:00</option>
+            <option>15:45</option><option>16:30</option><option>17:15</option>
+            <option>18:00</option>
+          </select>
 
-        <input type="tel" id="phone" name="phone" placeholder="Телефон" required autocomplete="tel">
+          <select id="rim" name="rim" aria-label="Диаметр диска">
+            <option value="16">R16</option><option value="17">R17</option>
+            <option value="18">R18</option><option value="19">R19</option>
+            <option value="20">R20</option><option value="21">R21</option>
+            <option value="22">R22</option>
+          </select>
 
-        <input type="email" id="email" name="email" placeholder="E-mail" required autocomplete="email">
+          <select id="vehicle" name="vehicle" aria-label="Тип автомобиля">
+            <option value="0">Легковой</option>
+            <option value="5">Кроссовер</option>
+            <option value="10">Большой внедорожник</option>
+            <option value="10">Малый микроавтобус</option>
+            <option value="15">Большой микроавтобус</option>
+          </select>
 
-        <input type="date" id="date" name="date" required>
+          <div class="price-box">
+            <h3>Стоимость: <span id="price">40€</span></h3>
+          </div>
 
-        <select id="time" name="time" aria-label="Время">
-          <option>09:00</option>
-          <option>09:45</option>
-          <option>10:30</option>
-          <option>11:15</option>
-          <option>12:00</option>
-          <option>12:45</option>
-          <option>13:30</option>
-          <option>14:15</option>
-          <option>15:00</option>
-          <option>15:45</option>
-          <option>16:30</option>
-          <option>17:15</option>
-          <option>18:00</option>
-        </select>
-
-        <select id="rim" name="rim" aria-label="Диаметр диска">
-          <option value="16">R16</option>
-          <option value="17">R17</option>
-          <option value="18">R18</option>
-          <option value="19">R19</option>
-          <option value="20">R20</option>
-          <option value="21">R21</option>
-          <option value="22">R22</option>
-        </select>
-
-        <select id="vehicle" name="vehicle" aria-label="Тип автомобиля">
-          <option value="0">Легковой</option>
-          <option value="5">Кроссовер</option>
-          <option value="10">Большой внедорожник</option>
-          <option value="10">Малый микроавтобус</option>
-          <option value="15">Большой микроавтобус</option>
-        </select>
-
-        <h3>Стоимость: <span id="price">40€</span></h3>
-
-        <button type="submit" id="submitBtn">Забронировать</button>
-      </form>
+          <button type="submit" id="submitBtn">Забронировать место</button>
+        </form>
+      </div>
     </section>
 
     <section class="contact" aria-labelledby="contact-title">
       <h2 id="contact-title">Контакты</h2>
-      <p>Majaka põik 17, Tallinn</p>
-      <p><a href="tel:+37257476733">+372 57476733</a></p>
-      <p><a href="mailto:mycarproo@gmail.com">mycarproo@gmail.com</a></p>
+      <div class="contact-grid">
+        <p><strong>Адрес:</strong> Majaka põik 17, Tallinn</p>
+        <p><strong>Телефон:</strong> <a href="tel:+37257476733">+372 57476733</a></p>
+        <p><strong>Email:</strong> <a href="mailto:mycarproo@gmail.com">mycarproo@gmail.com</a></p>
+      </div>
     </section>
   </main>
 
-  <footer role="contentinfo">
-    <p>&copy; <span id="year"></span> MyCar Pro</p>
+  <footer>
+    <p>&copy; MyCar Pro. Все права защищены.</p>
   </footer>
 </body>
 </html>
+
